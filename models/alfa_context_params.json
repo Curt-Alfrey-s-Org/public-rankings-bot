@@ -1,0 +1,179 @@
+{
+  "coefficients": {
+    "table_size_7ft": 0.013861275239954923,
+    "table_size_8ft": -0.01368113188190238,
+    "table_size_9ft": -0.0001801433580526316,
+    "format_10ball": 0.009925656046836637,
+    "format_8ball": -0.014664291009597768,
+    "format_9ball": 0.004738634962761104,
+    "event_tournament": -1.734723475976807e-18,
+    "location_boston_classic": -0.020570971804247988,
+    "location_chicago_nationals": -0.03248954285679,
+    "location_las_vegas_open": -0.007781692969448152,
+    "location_phoenix_open": -0.03701157774739018,
+    "location_seattle_invitational": -0.037542522458486584
+  },
+  "intercept": 0.020182338988810257,
+  "feature_names": [
+    "table_size_7ft",
+    "table_size_8ft",
+    "table_size_9ft",
+    "format_10ball",
+    "format_8ball",
+    "format_9ball",
+    "event_tournament",
+    "location_boston_classic",
+    "location_chicago_nationals",
+    "location_las_vegas_open",
+    "location_phoenix_open",
+    "location_seattle_invitational"
+  ],
+  "training": {
+    "mean_abs_error": 0.4987046583956578,
+    "rmse": 0.4995026710762455,
+    "r2_score": 0.0019318704657885766
+  },
+  "validation": {
+    "mean_abs_error": 0.49983357551977164,
+    "rmse": 0.5006143965290331,
+    "r2_score": -0.0021787666915773496
+  },
+  "adjustment_factors": {
+    "table_size": {
+      "8ft": {
+        "mean_residual": -0.010254699447919811,
+        "count": 2411,
+        "std_residual": 0.500394568979478
+      },
+      "9ft": {
+        "mean_residual": 0.002374046064805703,
+        "count": 2434,
+        "std_residual": 0.49997831455527264
+      },
+      "7ft": {
+        "mean_residual": 0.01698560906663725,
+        "count": 2354,
+        "std_residual": 0.4995172944718169
+      }
+    },
+    "format": {
+      "8ball": {
+        "mean_residual": -0.011386775334084972,
+        "count": 2383,
+        "std_residual": 0.500257274680833
+      },
+      "9ball": {
+        "mean_residual": 0.007445446958175877,
+        "count": 2440,
+        "std_residual": 0.4998621583657612
+      },
+      "10ball": {
+        "mean_residual": 0.012628900058435116,
+        "count": 2376,
+        "std_residual": 0.4998356193500558
+      }
+    },
+    "event_context": {
+      "tournament": {
+        "mean_residual": 0.002922415821039934,
+        "count": 7199,
+        "std_residual": 0.5000205881910862
+      }
+    },
+    "location_id": {
+      "miami_amateur": {
+        "mean_residual": 0.0124193065990258,
+        "count": 960,
+        "std_residual": 0.5000394015570275
+      },
+      "dallas_tour": {
+        "mean_residual": -0.012804262148648852,
+        "count": 912,
+        "std_residual": 0.49927171392013603
+      },
+      "phoenix_open": {
+        "mean_residual": -0.016868592190297876,
+        "count": 911,
+        "std_residual": 0.5004798944408604
+      },
+      "seattle_invitational": {
+        "mean_residual": -0.016965965676564446,
+        "count": 910,
+        "std_residual": 0.49983681361606747
+      },
+      "boston_classic": {
+        "mean_residual": -0.00028299845601090576,
+        "count": 908,
+        "std_residual": 0.5007760809933619
+      }
+    }
+  },
+  "validation_metrics": {
+    "baseline": {
+      "brier_score": 0.2500866502873776,
+      "accuracy": 0.5060391503540191,
+      "log_loss": 0.6933215606821725,
+      "count": 2401
+    },
+    "adjusted": {
+      "brier_score": 0.2506147740121279,
+      "accuracy": 0.5097875885047897,
+      "log_loss": 0.6943824442351912,
+      "count": 2401
+    },
+    "improvement": {
+      "brier_score_delta": -0.0005281237247503068,
+      "brier_score_pct": -0.211176295953196,
+      "accuracy_delta": 0.0037484381507705278,
+      "log_loss_delta": -0.0010608835530186989
+    }
+  },
+  "stratified_metrics": {
+    "table_size": {
+      "9ft": {
+        "baseline_brier": 0.24980942766558886,
+        "count": 812,
+        "accuracy": 0.5295566502463054,
+        "adjusted_brier": 0.25133988961659226,
+        "improvement": -0.0015304619510033979
+      },
+      "8ft": {
+        "baseline_brier": 0.2504358462064659,
+        "count": 804,
+        "accuracy": 0.4925373134328358,
+        "adjusted_brier": 0.25102480343420724,
+        "improvement": -0.0005889572277413269
+      },
+      "7ft": {
+        "baseline_brier": 0.2500157601599194,
+        "count": 785,
+        "accuracy": 0.49554140127388535,
+        "adjusted_brier": 0.24944476442464145,
+        "improvement": 0.0005709957352779405
+      }
+    },
+    "format": {
+      "10ball": {
+        "baseline_brier": 0.2498291478742814,
+        "count": 792,
+        "accuracy": 0.5063131313131313,
+        "adjusted_brier": 0.25160548208255584,
+        "improvement": -0.0017763342082744438
+      },
+      "8ball": {
+        "baseline_brier": 0.25018629070369885,
+        "count": 795,
+        "accuracy": 0.5094339622641509,
+        "adjusted_brier": 0.25012575334330844,
+        "improvement": 6.0537360390411354e-05
+      },
+      "9ball": {
+        "baseline_brier": 0.25023987851857743,
+        "count": 814,
+        "accuracy": 0.5024570024570024,
+        "adjusted_brier": 0.250128448016959,
+        "improvement": 0.00011143050161843693
+      }
+    }
+  }
+}

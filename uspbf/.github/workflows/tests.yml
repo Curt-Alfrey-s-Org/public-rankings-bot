@@ -1,0 +1,43 @@
+# USPBF checks: shell/JS syntax, JS unit tests, and nginx proxy behaviour tests.
+# No secrets needed: tests/nginx/run.sh uses a throwaway placeholder key and a local echo backend.
+name: tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install nginx and envsubst (if missing)
+        run: |
+          if ! { command -v nginx || test -x /usr/sbin/nginx; } >/dev/null || ! command -v envsubst >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends nginx-core gettext-base
+          fi
+
+      - name: Shell syntax
+        run: |
+          for f in scripts/*.sh start.sh stop.sh tests/nginx/run.sh; do bash -n "$f"; done
+          sh -n nginx-config/docker-entrypoint.d/99-uspbf-bot-api-key.sh
+
+      - name: JS syntax
+        run: for f in nginx-config/site/js/*.js nginx-config/maintenance/js/*.js tests/js/*.js; do node --check "$f"; done
+
+      - name: JS unit tests
+        run: node --test tests/js/*.test.js
+
+      - name: nginx proxy behaviour tests
+        run: bash tests/nginx/run.sh

@@ -1,0 +1,131 @@
+/**
+ * Future Tournaments Page Styles
+ */
+
+.future-tournaments-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  padding: 2rem 0;
+  color: #fff;
+}
+
+.future-tournaments-page .hero-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.future-tournaments-page .hero-section h1 {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffc300 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 1rem;
+}
+
+.future-tournaments-page .filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.future-tournaments-page .filter-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #d4a5ff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.future-tournaments-page .filter-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(212, 165, 255, 0.2);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 0.875rem;
+  min-width: 140px;
+}
+
+.future-tournaments-page .events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.future-tournaments-page .event-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 165, 255, 0.2);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.future-tournaments-page .event-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(212, 165, 255, 0.4);
+}
+
+.future-tournaments-page .event-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.future-tournaments-page .association-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+}
+
+.future-tournaments-page .association-badge.wpa {
+  background: rgba(0, 51, 102, 0.5);
+  color: #7dd3fc;
+}
+
+.future-tournaments-page .association-badge.wpba {
+  background: rgba(255, 20, 147, 0.3);
+  color: #f9a8d4;
+}
+
+.future-tournaments-page .event-date {
+  font-size: 0.8rem;
+  color: #a78bfa;
+}
+
+.future-tournaments-page .event-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.future-tournaments-page .event-card-location {
+  font-size: 0.875rem;
+  color: #c4b5fd;
+  margin-bottom: 0.5rem;
+}
+
+.future-tournaments-page .event-card-link {
+  font-size: 0.8rem;
+  color: #a78bfa;
+  text-decoration: none;
+}
+
+.future-tournaments-page .event-card-link:hover {
+  text-decoration: underline;
+}
+
+.future-tournaments-page .empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+  border: 1px dashed rgba(212, 165, 255, 0.3);
+}

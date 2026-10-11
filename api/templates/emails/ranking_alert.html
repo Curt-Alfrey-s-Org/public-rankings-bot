@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header { background-color: #334155; color: white; padding: 24px; text-align: center; }
+        .header h1 { margin: 0; font-size: 22px; }
+        .content { padding: 24px; }
+        .change { font-size: 28px; font-weight: bold; color: #0ea5e9; margin: 16px 0; }
+        .up { color: #10b981; }
+        .down { color: #ef4444; }
+        .button { display: inline-block; padding: 12px 24px; background-color: #334155; color: white; text-decoration: none; border-radius: 6px; margin: 16px 0; }
+        .footer { font-size: 12px; color: #999; text-align: center; padding: 16px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ranking Update</h1>
+        </div>
+        <div class="content">
+            <p><strong>{{ player_name }}</strong> has moved in the rankings.</p>
+            <p>Previous rank: {{ old_rank }} → New rank: {{ new_rank }}</p>
+            <p class="change">{{ movement }}</p>
+            <p>Points change: {{ points_change }}</p>
+            <p>Division: {{ division }}</p>
+            <p>Association: {{ association }}</p>
+            <p><a href="{{ rankings_url }}" class="button">View Full Rankings</a></p>
+            <div class="footer">
+                <p>Rankings Bot · WPBA & WPA</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

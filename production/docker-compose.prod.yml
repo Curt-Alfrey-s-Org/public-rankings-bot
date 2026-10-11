@@ -1,0 +1,249 @@
+# Rankings Bot — single production compose (all services).
+# This is the ONLY compose file used in production. See docs/PRODUCTION_DEPLOYMENT.md.
+# Flow: Cloudflare Tunnel → probilliards-nginx:80 → rankings-bot-api:8003 (container).
+# Maintenance page: ./scripts/switch-site.sh maintenance | production
+#
+# Doc refs (AI / maintainers — tunnel path uses Docker DNS, not host 127 for API reachability):
+#   - docs/NETWORKING_DOC_HOOKS.md — index of networking-related files and which docs to read
+#   - docs/PORT_MANAGEMENT.md — host publishes vs container-only API; nginx 8088
+#   - docs/REQUEST_FLOW_AND_ARCHITECTURE.md — end-to-end request path
+#   - docs/BAD_GATEWAY_TROUBLESHOOTING.md — upstream/API bind and 502 diagnosis
+
+name: rankings-bot
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: rankings-bot-postgres
+    env_file:
+      - ../.env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-rankingsbot}
+      POSTGRES_USER: ${POSTGRES_USER:-rankingsbot_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../init-db.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rankingsbot_user} -d ${POSTGRES_DB:-rankingsbot}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    # Internal network only (review 2026-09-25): tunnel_network is shared with the edge
+    # nginx / cloudflared and other stacks, so the database is not attached to it. The API
+    # and celery-worker reach it over rankings-bot-network.
+    networks:
+      - rankings-bot-network
+
+  # Separate Postgres instance for Test Center — full process-level isolation from production.
+  # Per PostgreSQL docs, databases on the same cluster share postmaster, shared_buffers, WAL,
+  # max_connections, and autovacuum workers. A separate instance avoids all resource contention.
+  postgres-testcenter:
+    image: postgres:15-alpine
+    container_name: rankings-bot-postgres-testcenter
+    environment:
+      POSTGRES_DB: rankings_testcenter
+      POSTGRES_USER: ${POSTGRES_USER:-rankingsbot_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
+    volumes:
+      - postgres_testcenter_data:/var/lib/postgresql/data
+      - ../init-testcenter-database.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ../database/schema_testcenter_bootstrap.sql:/docker-entrypoint-initdb.d/02-schema_testcenter_bootstrap.sql:ro
+    restart: unless-stopped
+    # Lightweight: Test Center is low-traffic; cap shared_buffers + connections well below production.
+    command: >-
+      postgres
+        -c shared_buffers=32MB
+        -c max_connections=20
+        -c work_mem=4MB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rankingsbot_user} -d rankings_testcenter"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - rankings-bot-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: rankings-bot-redis
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    # Redis has no password, so keep it off the shared tunnel_network (review 2026-09-25);
+    # only the API and celery-worker (both on rankings-bot-network) can reach it.
+    networks:
+      - rankings-bot-network
+
+  rankings-bot-api:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: rankings-bot-api
+    # Match host deploy user (production: ansible, not root); see export_compose_uid_gid.sh + .env.compose-host-user
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    # NO /var/run/docker.sock mount and NO docker group_add here. Docker-group/socket
+    # access is root-equivalent on the host (Docker Engine security docs:
+    # https://docs.docker.com/engine/security/#docker-daemon-attack-surface), so the
+    # internet-facing API never holds the socket. Admin "Update website" / "Full deploy"
+    # instead write a request file into DEPLOY_REQUEST_DIR (../logs bind mount below);
+    # a host-side systemd path unit runs the deploy scripts. See
+    # docs/ADMIN_DEPLOY_HOST_DISPATCH.md and production/systemd/.
+    volumes:
+      - ../logs:/app/logs
+      - ../pools_coaching_frames:/app/pools_coaching_frames
+      - ../scraped_data:/app/scraped_data
+      - ../media:/app/media
+      # Config for login_features.json and other persisted settings (per Twelve-Factor: config in env/files)
+      - ../config:/app/config
+      # Full frontend tree (rw): dist/ written by scripts/build_frontend_with_docker.sh (docker run node image).
+      - ../frontend:/app/frontend:rw
+    # Single source: ../.env provides all base config (JWT_SECRET, BOT_API_KEY,
+    # XAI_API_KEY, POSTGRES_*, etc.). Symlink at production/.env ensures compose
+    # interpolation also finds it. Only use environment: for overrides and
+    # container-specific values. (Per Docker Compose docs: env_file loads into
+    # container; environment: overrides env_file for same key.)
+    env_file:
+      - ../.env
+    environment:
+      # Admin "Update website" / "Full deploy": API writes request files here (inside ../logs
+      # bind mount); host systemd path unit (production/systemd/) consumes them. See
+      # docs/ADMIN_DEPLOY_HOST_DISPATCH.md.
+      - DEPLOY_REQUEST_DIR=/app/logs/deploy-requests
+      # Alias: frontend needs VITE_API_KEY but .env has BOT_API_KEY
+      - VITE_API_KEY=${BOT_API_KEY}
+      # Override: production uses Docker DNS hostname (not the dev hostname in .env)
+      - DATABASE_URL=postgresql://${POSTGRES_USER:change-me@rankings-bot-postgres:5432/${POSTGRES_DB:-rankingsbot}
+      # Test Center: separate Postgres instance (own process/memory/connections) — no resource sharing with production
+      - TEST_CENTER_DATABASE_URL=postgresql://${POSTGRES_USER:change-me@rankings-bot-postgres-testcenter:5432/rankings_testcenter
+      - REBUILD_ALL_IMAGES_SCRIPT=/app/scripts/full_deploy.sh
+      # Bootstrap credentials: required-variable form (Compose interpolation
+      # https://docs.docker.com/reference/compose-file/interpolation/) — a missing .env
+      # value fails `docker compose up` loudly instead of falling back to a known
+      # temporary password. Used only to create missing users at startup; never at login
+      # (see api/auth.py and docs/AUTH_DESIGN.md).
+      - SUPER_ADMIN_USERNAME=${SUPER_ADMIN_USERNAME:-tornybotca1}
+      - SUPER_ADMIN_PASSWORD=${SUPER_ADMIN_PASSWORD:?Set SUPER_ADMIN_PASSWORD in .env (no default; see docs/ENV_VARS.md)}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-Bama}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in .env (no default; see docs/ENV_VARS.md)}
+      - DIRECTOR_USERNAME=${DIRECTOR_USERNAME:-bama}
+      - DIRECTOR_PASSWORD=${DIRECTOR_PASSWORD:?Set DIRECTOR_PASSWORD in .env (no default; see docs/ENV_VARS.md)}
+      - USER_USERNAME=${USER_USERNAME:-rolltide}
+      - USER_PASSWORD=${USER_PASSWORD:?Set USER_PASSWORD in .env (no default; see docs/ENV_VARS.md)}
+      # Container-specific: Docker DNS service names
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/0
+      - FRAME_STORAGE_ROOT=/app/pools_coaching_frames
+      - EXTERNALPOOL_TAB_ARCHIVE_DIR=/app/scraped_data/externalpool_tabs
+      - IPTABLES_PATH=/usr/sbin/iptables
+      - LOG_FILE=/app/logs/rankings_bot.log
+      # Medium traffic: multi-process API; per-worker DB pool (avoid exhausting Postgres max_connections)
+      - UVICORN_WORKERS=${UVICORN_WORKERS:-4}
+      - DB_POOL_SIZE=${DB_POOL_SIZE:-5}
+      - DB_MAX_OVERFLOW=${DB_MAX_OVERFLOW:-10}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      postgres-testcenter:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+    # Loopback only by default (review 2026-09-25): nginx reaches the API over Docker DNS
+    # (rankings-bot-api:8003 on tunnel_network), and host scripts use 127.0.0.1:8003.
+    # Set API_BIND_ADDR=0.0.0.0 only if a proxy on another host must reach this port.
+    ports:
+      - "${API_BIND_ADDR:-127.0.0.1}:8003:8003"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/api/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
+    networks:
+      - tunnel_network
+      - rankings-bot-network
+
+  celery-worker:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: rankings-bot-celery-worker
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    command: celery -A api.services.celery_worker worker --loglevel=info --concurrency=4
+    volumes:
+      - ../logs:/app/logs
+      - ../pools_coaching_frames:/app/pools_coaching_frames
+      - ../config:/app/config
+    env_file:
+      - ../.env
+    environment:
+      # Container-specific: Docker DNS service names (override dev values from .env)
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://${POSTGRES_USER:change-me@rankings-bot-postgres:5432/${POSTGRES_DB:-rankingsbot}
+      - FRAME_STORAGE_ROOT=/app/pools_coaching_frames
+      - IPTABLES_PATH=/usr/sbin/iptables
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      rankings-bot-api:
+        condition: service_started
+    restart: unless-stopped
+    # Celery liveness probe via the broker. Rationale, references, and tuning
+    # table: docs/MONITORING_HEALTH.md → "Container healthchecks".
+    # Required so `docker compose up --wait` has a pass/fail gate for this
+    # service — a `disable: true` block makes Compose print
+    # "has no healthcheck configured" and exit non-zero, tripping start.sh.
+    # $$HOSTNAME escapes to a literal $ so the in-container shell expands it.
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A api.services.celery_worker inspect ping -d celery@$$HOSTNAME -t 5 >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+    # rankings-bot-network: reach postgres/redis (no longer on tunnel_network).
+    networks:
+      - tunnel_network
+      - rankings-bot-network
+
+  # Optional: rankings-bot-frontend container (legacy). Standard origin is probilliards-nginx (nginx-config/).
+  # rankings-bot-frontend:
+  #   build:
+  #     context: ../frontend
+  #     dockerfile: Dockerfile
+  #   container_name: rankings-bot-frontend
+  #   ports:
+  #     - '5176:80'
+  #   restart: unless-stopped
+  #   networks:
+  #     - tunnel_network
+
+  # Observability (Prometheus, Grafana, Loki, Alloy, exporters) lives in the
+  # central stack: /home/ansible/monitoring (Dockge: /opt/stacks/monitoring).
+
+volumes:
+  postgres_data:
+    name: rankings-bot_postgres_data
+    external: true
+  postgres_testcenter_data:
+  redis_data:
+
+networks:
+  tunnel_network:
+    external: true
+  rankings-bot-network:
+    external: true

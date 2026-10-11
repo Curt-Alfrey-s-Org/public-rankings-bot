@@ -1,0 +1,27 @@
+---
+description: Deployment and process ownership follow industry standards; single process manager, no duplicate starters
+alwaysApply: true
+---
+
+# Deployment standards
+
+When adding or changing deployment docs, scripts that start/restart services, or process management:
+
+## Principles (industry standards)
+
+- **Twelve-Factor (Processes):** Production runs under container orchestration (Docker Compose). See [12factor.net/processes](https://12factor.net/processes).
+- **Single owner per service/port:** Only Docker Compose manages service lifecycles and port allocation. Scripts must delegate to Docker Compose commands.
+- **No duplicate starters:** Never have both Docker Compose and direct process starts for the same service. Causes "address already in use" and violates single-owner principle.
+- **Official deployment docs:** Follow Docker, Docker Compose, and FastAPI documentation for containerized deployment.
+
+## Project rules
+
+- **Production API:** Use Docker Compose as the single container orchestrator. All services run as containers with proper networking and health checks.
+- **Scripts:** All deployment scripts delegate to Docker Compose commands (`docker compose up/down/restart`). Never start services directly outside containers.
+- **Docs:** State clearly: production = Docker Compose orchestration; all services run in containers with proper isolation.
+
+## References
+
+- `docs/PRODUCTION_DEPLOYMENT.md` — Docker production deployment standards.
+- `production/docker-compose.prod.yml` — production container configuration.
+- `.github/CODING_STANDARDS.md` — follow official documentation first.

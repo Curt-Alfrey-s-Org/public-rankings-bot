@@ -1,0 +1,89 @@
+# USPBF stack — WordPress + MySQL + nginx + Cloudflare tunnel (cf-uspbf).
+# Network model matches Alfa (alfaqd-website):
+#   - tunnel_network (external): ingress — uspbf-nginx, wordpress, tunnel; rankings-bot-api must be here for /api proxy.
+#   - uspbf_db (bridge): private DB traffic only — uspbf_db_1 + wordpress; nginx is NOT on this network (same as alfa-nginx / alfa1_db).
+# Volumes: external named volumes (pre-create via ./scripts/start.sh or docker volume create), same pattern as Alfa.
+# Tunnel: scripts/start_cf_uspbf.sh
+# Usage: from this directory — docker compose --progress plain up -d (or ./scripts/start.sh)
+# Requires: .env with BOT_API_KEY (required; static site /api allowlist proxy), MYSQL_*, optional USPBF_TOKEN
+
+services:
+  uspbf-nginx:
+    build:
+      context: ./nginx-config
+      dockerfile: Dockerfile
+    image: uspbf-nginx:latest
+    container_name: uspbf-nginx
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Same key as rankings-bot-api BOT_API_KEY (server-side only; not exposed to browsers).
+      # Required: nginx refuses to start without it. Injected only for the static-site
+      # /api/ allowlist (nginx-config/snippets/uspbf-public-api-allowlist.conf).
+      BOT_API_KEY: ${BOT_API_KEY:?BOT_API_KEY is required in .env}
+    # Dev preview: http://<server-ip>:8089/ — static site + /api/ (Alfa does not publish host ports on nginx; tunnel hits :80 in-container)
+    ports:
+      - "8089:8089"
+    networks:
+      - tunnel_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  wordpress:
+    image: wordpress:7.0.4-php8.3-apache
+    container_name: uspbf_wordpress_1
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      WORDPRESS_DB_HOST: uspbf_db_1
+      WORDPRESS_DB_USER: ${MYSQL_USER:?MYSQL_USER is required in .env}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD is required in .env}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:?MYSQL_DATABASE is required in .env}
+    volumes:
+      - uspbf_wp_data:/var/www/html
+    networks:
+      - uspbf_db
+      - tunnel_network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4
+    container_name: uspbf_db_1
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required in .env}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?MYSQL_DATABASE is required in .env}
+      MYSQL_USER: ${MYSQL_USER:?MYSQL_USER is required in .env}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD is required in .env}
+    volumes:
+      - uspbf_db_data:/var/lib/mysql
+    networks:
+      - uspbf_db
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  uspbf_wp_data:
+    name: uspbf_wp_data
+    external: true
+  uspbf_db_data:
+    name: uspbf_db_data
+    external: true
+
+networks:
+  tunnel_network:
+    external: true
+  uspbf_db:
+    name: uspbf_db
+    driver: bridge

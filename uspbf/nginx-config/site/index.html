@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USPBF — United States Pro Billiards Federation</title>
+  <meta name="description" content="U.S. pro billiards federation/association that creates and runs its own tournaments on its own software, tracks rankings for other associations with AI, WPBA, WPA, Heyball, artistic pool. example.com">
+  <link rel="stylesheet" href="/css/style.css?v=8">
+</head>
+<body>
+  <aside class="veteran-flags" aria-label="Veteran recognition">
+    <div class="veteran-flags__row">
+      <img class="veteran-flags__img" src="/flags/us.svg" width="90" height="47" alt="United States flag" decoding="async" />
+    </div>
+    <p class="veteran-flags__credit">Created by Disabled Veteran</p>
+  </aside>
+  <div id="site-nav"></div>
+  <main class="site-main">
+    <section class="hero">
+      <span class="badge">Powered by Pro Billiards Software</span>
+      <h1>United States Pro Billiards Federation</h1>
+      <p class="lead">The only U.S. pro billiards <strong>federation/association</strong> that <strong>creates and runs its own tournaments</strong> using <strong>its own software</strong>. It also tracks <strong>player rankings</strong> for other associations as well, all with <strong>AI integration</strong> on one platform. We cover <strong>men and women</strong>, <strong>pro and elite amateurs</strong>, <strong>every major game type</strong>, and the <strong>most popular rule sets for those games</strong>, including <strong>WPBA</strong>, <strong>WPA</strong>, <strong>Heyball</strong>, and <strong>artistic pool</strong>. Other associations rely on <strong>third-party software</strong>; USPBF <strong>owns the full stack</strong> with <strong>AI built in</strong>.</p>
+      <p class="lead hero__sublead">Much of the industry still depends on <strong>old player rating systems</strong> that can be manipulated by creating small tournaments/matches in some apps to lower a player&rsquo;s rating&mdash;cheaters have found a way to <strong>sandbag</strong>, leading many directors to no longer trust the rating system. <strong>ALFa</strong> is designed to <strong>replace old ratings using AI</strong>: AI checks legacy ratings (maybe they are accurate in many cases) against real match play in <strong>credible larger tournaments</strong>, excluding small tournaments on <strong>third-party apps</strong>. <strong>AI-assisted anti-cheat</strong> helps improve accuracy and fairness for players and directors, including <strong>live checks</strong> as matches run; no more waiting a week for rankings and ratings to update! <strong>AI Coach</strong> helps you improve and navigate the app as well. For the full story on ratings, integrity, and product features, see <a href="/about.html">About USPBF</a> and sign in at <a href="https://www.probilliardssoftware.com/" target="_blank" rel="noopener noreferrer">Pro Billiards Software</a>.</p>
+    </section>
+
+    <div id="home-error" class="msg-error" hidden></div>
+
+    <section style="margin-bottom:2.5rem">
+      <h2 class="section-title">Featured upcoming</h2>
+      <div id="home-upcoming"></div>
+    </section>
+
+    <section class="news-section" aria-labelledby="news-heading">
+      <h2 id="news-heading" class="section-title">Billiards news</h2>
+      <p class="msg-muted news-section__intro">Headlines from trusted sources in the sport.</p>
+      <div id="home-news"></div>
+    </section>
+
+    <aside class="example-meme" id="example-meme">
+      <div class="example-meme__slider">
+        <div class="example-meme__frame" aria-hidden="true">
+          <video class="example-meme__video" id="example-meme-video"
+                 src="/assets/memes/example-example-cave-scraps.mp4"
+                 muted playsinline></video>
+          <p class="example-meme__cap example-meme__cap--tl">It&rsquo;s Impossible!</p>
+          <p class="example-meme__cap example-meme__cap--tr">Example Example was able to build this in a RV.....with a bunch of computer scraps!</p>
+          <p class="example-meme__cap example-meme__cap--bl">I&rsquo;m sorry, I&rsquo;m not Example Example</p>
+        </div>
+        <button type="button" class="example-meme__collapse" id="example-meme-collapse"
+                title="Hide meme" aria-label="Hide meme">&lsaquo;</button>
+      </div>
+      <button type="button" class="example-meme__handle" id="example-meme-handle"
+              title="Show meme" aria-label="Show Example Example meme">
+        <span class="example-meme__handle-arrow">&rsaquo;</span>
+        <span class="example-meme__handle-film" aria-hidden="true">&#9654;</span>
+      </button>
+    </aside>
+  </main>
+  <footer id="site-footer" class="site-footer"></footer>
+  <script src="/js/api.js?v=2"></script>
+  <script src="/js/dom-utils.js?v=2"></script>
+  <script src="/js/nav.js?v=5"></script>
+  <script src="/js/live.js?v=1"></script>
+  <script src="/js/home.js?v=2"></script>
+  <script src="/js/searchable-select.js?v=1"></script>
+  <script src="/js/alfa-demo-chat.js?v=6"></script>
+  <script src="/js/example-meme.js?v=3"></script>
+</body>
+</html>

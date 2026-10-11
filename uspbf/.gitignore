@@ -1,0 +1,6 @@
+.env
+*.log
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+backups/

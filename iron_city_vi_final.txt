@@ -1,0 +1,84 @@
+14 - 18 January, Iron City Billiards (USA)
+Iron City Invitational VI
+
+Position	Family Name	Given Names	Country	R-points	Award
+1	Tkach	Kristina	USA		11000
+2	Filler	Pia	GER		7000
+3	Easton	Savannah	USA		4800
+4	Zlateva	Kristina	BUL		3600
+5	Bryant	Brittany	USA		2600
+6	Ropero	Mayte	ESP		2600
+7	Pao	Caroline	USA		2100
+8	Benoit	Ashley	CAN		2100
+9	Driskell	Kaylee McIntosh	USA		1600
+10	Kibaroglu	Eylul	TUR		1600
+11	Brown	LoreeJon	USA		1600
+12	Grim	Kristina	USA		1600
+13	Fefilova-Styer	Margaret	USA		1200
+14	Webb	Monica	USA		1200
+15	Meyman	Kennedy	USA		1200
+16	Cheng	Olivia	USA		1200
+17	Menard	Veronique	CAN		800
+18	Atwell	Janet	USA		800
+19	Williams	Susan	USA		800
+20	Fox-Raymond	Lonnie	USA		800
+21	Helfery	Jordan	USA		800
+22	McDaniel	Cathy	USA		800
+23	White	Rebekah	USA		800
+24	Hardie	Tracy	USA		800
+25	Miller	Briana	USA		
+26	Janic	Angela	USA		
+27	Lio	Ada	USA		
+28	Mello	Susan	USA		
+29	Billing	Billie	USA		
+30	Lang	Rachel	USA		
+31	Barnes	Jessica	USA		
+32	Lopez	Silvia	USA		
+33	Rice	Ashley	USA		
+34	Duddy	Emily	USA		
+35	Mitchell	Stephanie	USA		
+36	Miller	Sara	USA		
+37	Cossette	Lisa	USA		
+38	Ashton	Joanne	CAN		
+39	Maiers	June	USA		
+40	Loraine	Shanelle	USA		
+41	Bennett	Kia	USA		
+42	Guleikova	Aleksandra	RUS		
+43	Lyon	Veronica	USA		
+44	DePelsMaeker	Krystal	USA		
+45	Weems	Avah	USA		
+46	Monk	Michell	USA		
+47	Napolitano	Giovanna	ITA		
+48	Stephens	Julie	USA		
+49	Cheng	Sandy	USA		
+50	Lewis	Shanna	USA		
+51	Mann	Amanda	USA		
+52	Wilson	Judie	USA		
+53	Bendikas	Laura	USA		
+54	Richard	Lynn	USA		
+55	Ritchie	Renita	USA		
+56	Zima	Alexa	USA		
+57	Teichert	Debbie	USA		
+58	Connor	Tarah	USA		
+59	Haggerty	Peg	USA		
+60	Gutierrez	Isabel	USA		
+61	Friend	Kathy	USA		
+62	Erfman	April	USA		
+63	Campbell	Camille	USA		
+64	Marion	Hayleigh	USA		
+65	Sundholm	Betsy	USA		
+66	Semko	Laura	USA		
+67	Sellman	Dona	USA		
+68	Sullivan	Kaley	USA		
+69	Figueroa	Holly	USA		
+70	Cavanna	Edwidge	USA		
+71	Dugger	Yolanda	USA		
+72	Pierce	Kim Hernandez	USA		
+73	Kirkland	Beverly	USA		
+74	Goldman	Natae	USA		
+75	Vaillancourt	Elise	USA		
+76	Sessions	Janis	USA		
+77	Milton	Julie	USA		
+78	Sorrow	Lauren	USA		
+79	Wilder	Sandy	USA		
+80	Wilson	Sheri	USA		

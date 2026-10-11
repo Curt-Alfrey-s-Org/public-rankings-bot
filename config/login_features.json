@@ -1,0 +1,40 @@
+{
+  "short": [
+    {"title": "Rankings", "description": "WPBA & WPA rankings with search and filters."},
+    {"title": "Live Est. Rating (PRO)", "description": "Live rating updates during play (PRO subscription required)."},
+    {"title": "ALFa Rating (PRO)", "description": "ALFa replaces legacy Fargo-style ratings over time; ingests Fargo history and uses AI to validate accuracy (PRO subscription required)."},
+    {"title": "Movement", "description": "See who moved up, down, and why."},
+    {"title": "Tournaments", "description": "History, results, brackets, and standings."},
+    {"title": "Brackets & leaderboards", "description": "Live brackets and leaderboard views."},
+    {"title": "Head-to-Head", "description": "Compare two players side-by-side."},
+    {"title": "Player performance", "description": "Track stats and key changes over time."},
+    {"title": "AI Coach", "description": "Upload video for analysis and tips."},
+    {"title": "Director tools", "description": "Run events, assign tables, enter scores."},
+    {"title": "Scorekeeping tools", "description": "Score keeper mode and shot clock."}
+  ],
+  "full": [
+    {"title": "Rankings", "description": "Official-style WPBA & WPA rankings with search and filters; ratings alongside where available."},
+    {"title": "Live Est. Rating (PRO)", "description": "Premium live rating updated rack-by-rack during active play for PRO subscribers."},
+    {"title": "ALFa Rating (PRO)", "description": "Premium cross-format rating designed to replace Fargo as the primary signal; imports Fargo past history and uses AI to check whether legacy ratings still match real play; combines rank, points, and external context (PRO)."},
+    {"title": "Movement", "description": "See who moved up or down, point changes, and trends over time."},
+    {"title": "Tournament history", "description": "Browse past events, results, and standings in one place."},
+    {"title": "Brackets & leaderboards", "description": "View brackets and live leaderboards; run events and enter scores."},
+    {"title": "Upcoming events", "description": "See what's coming up in one feed."},
+    {"title": "Head-to-Head", "description": "Compare any two players: rankings, ratings, and how they've fared against each other."},
+    {"title": "Player performance", "description": "Track stats and get notified when things change that matter to you."},
+    {"title": "AI Coach", "description": "Upload session video and get analysis and pointers to improve your game."},
+    {"title": "Tournament Wizard", "description": "Create new tournaments step-by-step with guided setup."},
+    {"title": "Director mode", "description": "Run brackets, assign tables, enter scores, and manage matches."},
+    {"title": "Score keeper mode", "description": "Enter scores and run timers at your table."},
+    {"title": "Timekeeper / shot clock", "description": "Full-screen shot clock for timekeepers at the table."},
+    {"title": "Data input", "description": "Enter or upload rankings and tournament data; keep everything in sync."},
+    {"title": "Player management", "description": "Manage rosters and tournament players."},
+    {"title": "Anti-sandbagging", "description": "AI-assisted signals and tools to flag unfair play and keep competition honest when ratings may not match results."},
+    {"title": "Covert Ops", "description": "Prep on opponents with recon-style insights (admin)."},
+    {"title": "User management & roles", "description": "Create users and assign roles (player, director, admin, score keeper)."},
+    {"title": "Refresh, export & backup", "description": "Pull latest from sources, export to CSV, download backup (admin)."},
+    {"title": "Health & logs", "description": "Monitor system health and view logs (admin)."},
+    {"title": "News & links", "description": "Quick access to feeds and resources you use most."},
+    {"title": "Customizable", "description": "Appearance and layout options so it works your way."}
+  ]
+}

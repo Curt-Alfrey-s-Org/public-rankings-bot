@@ -1,0 +1,24 @@
+---
+description: Don't give redundant or conflicting deployment instructions
+alwaysApply: true
+---
+
+# No Redundant Deploy Instructions
+
+When telling the user how to apply changes, **use the project's unified deploy action** instead of listing separate manual steps.
+
+## Rule
+
+If the project has a button, script, or workflow that already does what's needed (e.g., rebuild frontend + restart API), **don't** instruct the user to do those steps manually:
+
+- ❌ "Restart the API to load the backend changes, then rebuild the frontend for the UI changes."
+- ✅ "Press **Update website** to apply the changes."
+
+## Apply when
+
+- Recommending how to deploy or apply code changes
+- The project has a single action (Update website, full_deploy.sh, rebuild script, etc.) that covers the needed steps
+
+## Principle
+
+One clear instruction beats two. If a button exists for the purpose, use it.

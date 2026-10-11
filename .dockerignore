@@ -1,0 +1,64 @@
+# Git and IDE
+.git
+.gitignore
+.gitignore.reference
+.cursor
+.vscode
+.idea
+*.swp
+*~
+
+# Virtual env (not needed in image)
+venv/
+ENV/
+env/
+
+# Docs and non-runtime
+docs/
+*.md
+!README.md
+
+# Tests and one-off scripts (not needed in API container)
+tests/
+test_*.py
+verify_*.py
+run_*.py
+conftest.py
+
+# Frontend source (not needed in API image); include built frontend for API to serve SPA
+frontend/*
+!frontend/dist/
+
+# Environment and secrets
+.env
+.env.*
+.env.example
+
+# Logs, reports, caches
+*.log
+logs/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.coveragerc
+
+# Nginx config (host use; container uses image config)
+nginx-config/
+
+# Production/deploy configs (not needed inside API image)
+production/
+deploy.sh
+*.desktop
+
+# Misc
+.DS_Store
+*.bak
+*.tmp
+.internet_access
+pull_requests/
+pulls/
+iron_city_*.txt
+tournament_tools/
+pools_coaching_frames/

@@ -1,0 +1,132 @@
+# Prometheus Configuration for Alfa Rating System Staging
+# Scrapes metrics from Alfa API, database, and Docker containers
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'alfa-staging'
+    environment: 'staging'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - localhost:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  - '/etc/prometheus/alfa_alerts.yml'
+
+scrape_configs:
+  # ========================================================================
+  # Alfa API Endpoint - Main prediction service metrics
+  # ========================================================================
+  - job_name: 'alfa-api'
+    static_configs:
+      - targets: ['alfa-api-staging:5000']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'alfa-staging-api'
+
+  # ========================================================================
+  # Database Metrics - PostgreSQL staging instance
+  # ========================================================================
+  - job_name: 'postgres-staging'
+    static_configs:
+      - targets: ['postgres-staging:5432']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'postgres-staging'
+
+  # ========================================================================
+  # Redis Cache Metrics
+  # ========================================================================
+  - job_name: 'redis-staging'
+    static_configs:
+      - targets: ['redis-staging:6379']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'redis-staging'
+
+  # ========================================================================
+  # Docker Daemon Metrics (via cadvisor)
+  # Tracks: CPU, memory, disk, I/O per container
+  # ========================================================================
+  - job_name: 'docker-staging'
+    static_configs:
+      - targets: ['localhost:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'docker-host'
+
+  # ========================================================================
+  # Node Exporter Metrics (if available)
+  # System-level metrics: CPU, memory, disk, network
+  # ========================================================================
+  - job_name: 'node-staging'
+    static_configs:
+      - targets: ['localhost:9100']
+    scrape_interval: 30s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'staging-host'
+
+  # ========================================================================
+  # Prometheus Self-Monitoring
+  # ========================================================================
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+# ============================================================================
+# CUSTOM METRICS DEFINITIONS
+# These are the metrics expected from the Alfa API
+# ============================================================================
+#
+# Alfa API Metrics (histogram & counter):
+# - alfa_predictions_total{model="v1.0",outcome="success|failure"}
+# - alfa_prediction_latency{model="v1.0"} (histogram: p50, p95, p99)
+# - alfa_prediction_errors_total{error_type="model|db|validation"}
+# - alfa_cache_hits_total
+# - alfa_cache_misses_total
+# - alfa_model_load_time{model="logistic_regression_v1.0"}
+# - alfa_brier_score{rolling_window="7d"}
+# - alfa_anomaly_detections{severity="low|medium|high"}
+#
+# Database Metrics:
+# - pg_stat_statements_total_time (query latency)
+# - pg_stat_activity_count (active connections)
+# - pg_database_size_bytes
+# - pg_table_size_bytes{table="alfa_match_predictions|alfa_player_ratings|etc"}
+#
+# Container Metrics (via cadvisor):
+# - container_cpu_usage_seconds_total
+# - container_memory_usage_bytes
+# - container_fs_usage_bytes
+# - container_network_io_bytes_total
+# 
+# Node/System Metrics (via node_exporter):
+# - node_cpu_seconds_total
+# - node_memory_MemAvailable_bytes
+# - node_disk_io_now
+# - node_network_receive_bytes_total
+#
+# ============================================================================

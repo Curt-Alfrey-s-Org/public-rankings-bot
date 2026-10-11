@@ -1,0 +1,80 @@
+1	Kristina Tkach		$11,000
+2	Pia Filler		$7,000
+3	Savannah Easton		$4,800
+4	Kristina Zlateva		$3,600
+5	Brittany Bryant		$2,600
+6	Mayte Ropero		$2,600
+7	Caroline Pao		$2,100
+8	Ashley Benoit		$2,100
+9	Kaylee McIntosh Driskell		$1,600
+10	Eylul Kibaroglu		$1,600
+11	LoreeJon Brown		$1,600
+12	Kristina Grim		$1,600
+13	Margaret Fefilova-Styer		$1,200
+14	Monica Webb		$1,200
+15	Kennedy Meyman		$1,200
+16	Olivia Cheng		$1,200
+17	Veronique Menard		$800
+18	Janet Atwell		$800
+19	Susan Williams		$800
+20	Lonnie Fox-Raymond		$800
+21	Jordan Helfery		$800
+22	Cathy McDaniel		$800
+23	Rebekah White		$800
+24	Tracy Hardie		$800
+25	Briana Miller		
+26	Angela Janic		
+27	Ada Lio		
+28	Susan Mello		
+29	Billie Billing		
+30	Rachel Lang		
+31	Jessica Barnes		
+32	Silvia Lopez		
+33	Ashley Rice		
+34	Emily Duddy		
+35	Stephanie Mitchell		
+36	Sara Miller		
+37	Lisa Cossette		
+38	Joanne Ashton		
+39	June Maiers		
+40	Shanelle Loraine		
+41	Kia Bennett		
+42	Aleksandra Guleikova		
+43	Veronica Lyon		
+44	Krystal DePelsMaeker		
+45	Avah Weems		
+46	Michell Monk		
+47	Giovanna Napolitano		
+48	Julie Stephens		
+49	Sandy Cheng		
+50	Shanna Lewis		
+51	Amanda Mann		
+52	Judie Wilson		
+53	Laura Bendikas		
+54	Lynn Richard		
+55	Renita Ritchie		
+56	Alexa Zima		
+57	Debbie Teichert		
+58	Tarah Connor		
+59	Peg Haggerty		
+60	Isabel Gutierrez		
+61	Kathy Friend		
+62	April Erfman		
+63	Camille Campbell		
+64	Hayleigh Marion		
+65	Betsy Sundholm		
+66	Laura Semko		
+67	Dona Sellman		
+68	Kaley Sullivan		
+69	Holly Figueroa		
+70	Edwidge Cavanna		
+71	Yolanda Dugger		
+72	Kim Hernandez Pierce		
+73	Beverly Kirkland		
+74	Natae Goldman		
+75	Elise Vaillancourt		
+76	Janis Sessions		
+77	Julie Milton		
+78	Lauren Sorrow		
+79	Sandy Wilder		
+80	Sheri Wilson		

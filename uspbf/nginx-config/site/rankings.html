@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rankings — USPBF</title>
+  <link rel="stylesheet" href="/css/style.css?v=8">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="site-main">
+    <header class="hero" style="padding-top:0">
+      <h1>Rankings</h1>
+      <p class="lead">Live tables powered by <strong>ALFa</strong> (Fargo-informed). Full rating detail after you sign in at <a href="https://www.probilliardssoftware.com/" target="_blank" rel="noopener noreferrer">probilliardssoftware.com</a>.</p>
+    </header>
+
+    <div id="rankings-error" class="msg-error" hidden></div>
+
+    <div class="form-row">
+      <div>
+        <label for="rankings-system">Ranking system</label>
+        <select id="rankings-system" data-no-searchable></select>
+      </div>
+      <div style="flex:1;min-width:14rem">
+        <label for="rankings-player-search">Search player</label>
+        <input type="search" id="rankings-player-search" list="rankings-player-names" placeholder="Name to filter or look up…" autocomplete="off">
+        <datalist id="rankings-player-names"></datalist>
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <button type="button" class="btn btn--primary" id="btn-rankings-find-player">All associations</button>
+      </div>
+    </div>
+
+    <section id="rankings-player-profile" class="card rankings-player-profile" hidden>
+      <h2 class="section-title" style="margin-top:0">Player snapshot</h2>
+      <div id="rankings-player-profile-detail"></div>
+    </section>
+
+    <p id="rankings-meta" class="msg-muted" style="margin-top:0"></p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Points</th>
+            <th>Country</th>
+          </tr>
+        </thead>
+        <tbody id="rankings-body"></tbody>
+      </table>
+    </div>
+    <div class="pagination rankings-pagination">
+      <label class="pagination__size">
+        <span class="msg-muted">Rows</span>
+        <select id="rankings-page-size">
+          <option value="50">50</option>
+          <option value="100" selected>100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+        </select>
+      </label>
+      <button type="button" class="btn btn--ghost" id="btn-first">First</button>
+      <button type="button" class="btn btn--ghost" id="btn-prev">Prev</button>
+      <span id="rankings-page-info" class="msg-muted pagination__info"></span>
+      <label class="pagination__jump">
+        <span class="msg-muted">Go to</span>
+        <input type="number" id="rankings-page-jump" min="1" value="1" aria-label="Page number">
+      </label>
+      <button type="button" class="btn btn--ghost" id="btn-go-page">Go</button>
+      <button type="button" class="btn btn--ghost" id="btn-next">Next</button>
+      <button type="button" class="btn btn--ghost" id="btn-last">Last</button>
+    </div>
+  </main>
+  <footer id="site-footer" class="site-footer"></footer>
+  <script src="/js/api.js"></script>
+  <script src="/js/dom-utils.js?v=1"></script>
+  <script src="/js/nav.js?v=5"></script>
+  <script src="/js/live.js?v=1"></script>
+  <script src="/js/rankings-systems.js?v=1"></script>
+  <script src="/js/rankings.js?v=6"></script>
+  <script src="/js/searchable-select.js?v=2"></script>
+</body>
+</html>

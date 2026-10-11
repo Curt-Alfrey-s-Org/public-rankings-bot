@@ -1,0 +1,59 @@
+---
+description: When writing code, prevent timeouts, hanging, and silent errors
+alwaysApply: true
+---
+
+# Prevent timeouts, hanging, and silent errors
+
+When writing or reviewing code, avoid patterns that cause **timeouts**, **hanging**, or **silent failures**. Apply the following.
+
+## Timeouts
+
+- **HTTP / API calls**: Set a reasonable `timeout` (e.g. axios, fetch with AbortController + timeout, or wrapper). Document or make configurable long-running endpoints (e.g. sync, export).
+- **Database / external I/O**: Prefer bounded wait (connection timeout, query timeout) where the stack supports it. For background jobs, use a process manager and time limits (e.g. Celery, systemd).
+- **Async / promises**: Long-running async work should have an explicit timeout or cancellation path (e.g. `AbortSignal`, `Promise.race` with a timeout promise, or job TTL).
+
+## Hanging
+
+- **Loops**: Ensure exit conditions are reachable; avoid unbounded `while (true)` without a break, timeout, or max-iterations guard.
+- **Promises**: Every promise chain should eventually resolve or reject; avoid leaving a promise pending (e.g. missing `resolve`/`reject` in a deferred, or never calling `done` in a callback).
+- **Listeners / subscriptions**: Clean up on unmount or teardown (removeEventListener, unsubscribe, abort signal) so work does not outlive the component or request.
+
+## Silent errors
+
+- **Never swallow errors**: Empty `catch` blocks or `catch` that only return without logging or rethrowing are forbidden. At minimum: log (with context) and either rethrow or return a typed error result.
+- **Async errors**: Use `.catch()` or try/catch around `await` and handle errors (log + user-visible or API error response). Unhandled promise rejections must not be the only handling.
+- **Fail fast**: Validate inputs and preconditions early; return a clear error instead of proceeding and failing later with no feedback.
+
+## Examples
+
+```typescript
+// ❌ BAD — no timeout, silent catch
+try {
+  await api.get('/slow')
+} catch {}
+
+// ✅ GOOD — timeout + log + rethrow or return error
+try {
+  const res = await api.get('/slow', { timeout: 30_000 })
+  return res.data
+} catch (e) {
+  logger.error('Slow endpoint failed', { error: e })
+  throw new ApiError('Request failed', { cause: e })
+}
+```
+
+```python
+# ❌ BAD — can hang, no timeout
+result = requests.get(url)
+
+# ✅ GOOD — timeout and explicit error handling
+try:
+    result = requests.get(url, timeout=30)
+    result.raise_for_status()
+except requests.RequestException as e:
+    logger.exception("Request failed: %s", url)
+    raise
+```
+
+When adding new I/O, async work, or error paths, ask: **Can this timeout? Can it hang? Could an error be ignored?** If yes, add timeouts, exit conditions, or explicit error handling and logging.

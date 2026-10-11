@@ -1,0 +1,13 @@
+id,tournament_id,name,date,location,year,association,championship,champion,runner_up,final_score,status,prize_pool,source_url,bracket_url,created_at,updated_at
+1040,2026_WPBA_wpba_bike_week_ii,WPBA Bike Week II,2026-06-14,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.160447,2026-02-26 13:34:29.160447
+1041,2026_WPBA_wpba_soaring_eagle_masters,WPBA Soaring Eagle Masters,2026-06-07,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.163242,2026-02-26 13:34:29.163242
+1042,2026_WPBA_wpba_event_2026_06_04,WPBA Event 2026-06-04,2026-06-07,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.167999,2026-02-26 13:34:29.167999
+1043,2026_WPBA_wpba_island_casino_us_open,WPBA Island Casino US Open,2026-04-19,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.171186,2026-02-26 13:34:29.171186
+1045,2026_WPBA_wpba_mezz_olhausen_raxx_invitational,WPBA Mezz Olhausen Raxx Invitational,2026-03-15,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.178467,2026-02-26 13:34:29.178467
+1046,2026_WPBA_wpba_raxx_mezz_olhausen_invitational,WPBA Raxx Mezz Olhausen Invitational,2026-03-15,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.182695,2026-02-26 13:34:29.182695
+1044,2026_WPBA_wpba_raxx_mezz_olhausen_cpba_invitational,WPBA Raxx Mezz Olhausen CPBA Invitational,2026-03-15,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.175331,2026-02-26 13:34:29.175331
+1035,2026_WPBA_2026_wpba_iron_city_invitational_vi,2026 WPBA Iron City Invitational VI,2026-12-31,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.140677,2026-02-26 13:34:29.140677
+1036,2026_WPBA_wpba_classic_billiards_players_championship,WPBA Classic Billiards Players Championship,2026-12-31,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.145663,2026-02-26 13:34:29.145663
+1037,2026_WPBA_wpba_dr_pool_jacoby_tour_championship,WPBA DR Pool/Jacoby Tour Championship,2026-12-13,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.148706,2026-02-26 13:34:29.148706
+1038,2026_WPBA_wpba_borderline_billiards,WPBA Borderline Billiards,2026-10-04,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.152752,2026-02-26 13:34:29.152752
+1039,2026_WPBA_2026_wpba_felt_colorado_classic,2026 WPBA Felt Colorado Classic,2026-08-23,,2026,WPBA,,,,,upcoming,,,,2026-02-26 13:34:29.156237,2026-02-26 13:34:29.156237

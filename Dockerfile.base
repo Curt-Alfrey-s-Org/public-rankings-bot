@@ -1,0 +1,72 @@
+# syntax=docker/dockerfile:1
+# rankings-bot base image — heavy apt + pip deps, re-built only when
+# requirements-api.txt / requirements-deps.txt / Dockerfile.base change.
+#
+# The main `Dockerfile` (api + celery-worker) FROMs this image so the
+# application layer (api/, scrapers/, database/, etc.) is rebuilt in a few
+# seconds when Python files change, instead of reinstalling chromium +
+# docker CLI + Python wheels every time.
+#
+# Build & publish via the shared bake file (preferred — uses .111 registry
+# mirror so other hosts pull prebuilt instead of rebuilding):
+#
+#   docker buildx bake --file ../alfa-ai/deploy/cluster/docker-bake.hcl \
+#       --push rankings-bot-base
+#
+# Local build:
+#   docker build -f Dockerfile.base -t rankings-bot-base:local .
+
+FROM python:3.12-slim
+
+WORKDIR /app
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_INPUT=1 \
+    PIP_DEFAULT_TIMEOUT=300 \
+    PIP_ROOT_USER_ACTION=ignore \
+    PYTHONUNBUFFERED=1
+
+# Docker static CLI from TrueNAS hub (see alfa-ai scripts/seed-docker-cli-truenas.sh +
+# scripts/sync-bot-wheels-from-hub.sh). amd64 tarball only; sync before build.
+ARG DOCKER_CLI_VERSION=27.4.1
+
+# System deps that rarely change. apt archives are kept in BuildKit cache
+# mounts (id=bots-apt / bots-apt-lists) so the second build of this image
+# reuses the .deb files already downloaded. Shared with every other bot
+# repo via the same ids — see /srv/dep-cache/README.md.
+RUN --mount=type=cache,id=bots-apt,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=bots-apt-lists,target=/var/lib/apt/lists,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean \
+    && apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    curl \
+    ca-certificates \
+    chromium \
+    chromium-driver
+
+COPY build-contexts/docker-cli/ /tmp/docker-cli-dir/
+RUN set -eux; \
+  TG="/tmp/docker-cli-dir/docker-${DOCKER_CLI_VERSION}.tgz"; \
+  if [ -f "$TG" ]; then \
+    tar -xzf "$TG" -C /usr/local/bin --strip-components=1 docker/docker; \
+  else \
+    ARCH=$(dpkg --print-architecture); \
+    case "$ARCH" in amd64) DARCH=x86_64 ;; arm64) DARCH=aarch64 ;; *) echo "unsupported arch: $ARCH"; exit 1 ;; esac; \
+    curl -fsSL "https://download.docker.com/linux/static/stable/${DARCH}/docker-${DOCKER_CLI_VERSION}.tgz" \
+      | tar -xz -C /usr/local/bin --strip-components=1 docker/docker; \
+  fi; \
+  rm -rf /tmp/docker-cli-dir
+
+RUN --mount=type=cache,id=bots-pip,target=/root/.cache/pip,sharing=locked \
+    pip install --upgrade pip setuptools wheel
+
+# Python deps layer — rebuilt only when requirements-*.txt change.
+# Hub-first wheels: sync via alfa-ai scripts/sync-bot-wheels-from-hub.sh
+COPY build-contexts/wheels-bots/ /tmp/wheels/
+COPY requirements-api.txt requirements-deps.txt ./
+RUN --mount=type=cache,id=bots-pip,target=/root/.cache/pip,sharing=locked \
+    pip install --find-links /tmp/wheels \
+      -r requirements-api.txt -r requirements-deps.txt
+
+LABEL org.opencontainers.image.title="rankings-bot-base"

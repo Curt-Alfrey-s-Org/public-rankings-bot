@@ -1,0 +1,44 @@
+{
+  "organization": "United States Pro Billiards Federation (USPBF)",
+  "public_site": {
+    "domain": "example.com",
+    "purpose": "Federation public home: news, rules, players, tournaments snapshots, and how to get started. Live rankings-style data may appear when the API feed is available."
+  },
+  "pro_billiards_software": {
+    "name": "Pro Billiards Software",
+    "url": "https://www.probilliardssoftware.com",
+    "register_url": "https://www.probilliardssoftware.com/register",
+    "role": "Official app engine USPBF runs: sign in, self-service registration (non-pros), event registration, brackets, live scoring, rankings, head-to-head, player performance, AI Coach, and ALFa AI inside the app."
+  },
+  "alfa_on_uspbf": {
+    "note": "This chat on example.com is a limited public demo of ALFa. It explains USPBF, account types, and Pro Billiards Software tiers/deals from published materials. It cannot access private player stats or signed-in data."
+  },
+  "account_types": {
+    "professional_wpa": {
+      "summary": "Pro accounts are provisioned from WPA license data by tournament directors or USPBF admins — not via the public self-registration form.",
+      "sign_in": "Use credentials provided by your tournament director or USPBF at probilliardssoftware.com.",
+      "if_no_account": "Contact your director or USPBF; do not use public self-registration if you already have a WPA license."
+    },
+    "top_level_amateur": {
+      "summary": "May self-register at Pro Billiards Software. Tournament results and rankings tracking apply when directors/federation designate eligibility (e.g. director-verified or association criteria).",
+      "license_field": "Optional association license number at registration can help link an existing player record."
+    },
+    "other_players_handicap": {
+      "summary": "May create an account and use site features and open events. Handicap-based divisions and full rankings for lower bands are still rolling out; messaging on the site explains current limits."
+    },
+    "email_verification": "New self-registered users must verify email before signing in."
+  },
+  "rules_and_formats": {
+    "coverage": "USPBF covers men and women, pro and elite amateurs, major game types, and popular rule sets including WPBA, WPA, Heyball, and artistic pool where adopted for sanctioned events.",
+    "starting_point": "Rules pages on example.com reference WPA/WPBA published rules; variants are labeled when used."
+  },
+  "ratings_and_integrity_messaging": {
+    "summary": "Public messaging describes ALFa as an AI-assisted ratings approach designed to improve on legacy single-number systems, with anti-cheat and live checks in the product roadmap; exact feature availability is described in-app and in federation materials.",
+    "disclaimer": "Do not invent specific player ratings, match results, or unpublished product release dates — steer users to the live app or official announcements."
+  },
+  "where_to_learn_more": {
+    "about_uspbf_page": "/about.html",
+    "join_accounts_page": "/join.html",
+    "pro_billiards_software": "https://www.probilliardssoftware.com"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "rankings-bot-diagrams",
+  "private": true,
+  "description": "Optional: build Mermaid diagrams to PNG/SVG. View with architecture.html (no install).",
+  "scripts": {
+    "build": "mmdc -i setup-b-docker.mmd -o setup-b-docker.png && mmdc -i diagnose-flow.mmd -o diagnose-flow.png",
+    "build:svg": "mmdc -i setup-b-docker.mmd -o setup-b-docker.svg && mmdc -i diagnose-flow.mmd -o diagnose-flow.svg"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.0.0"
+  }
+}

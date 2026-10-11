@@ -1,0 +1,48 @@
+#root {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tablet/touch scrolling: momentum scroll + flex fix for overflow */
+.app-main-scroll,
+.touch-scroll {
+  min-height: 0; /* Required for flex child to scroll */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* Reserve space for fixed ALFa dock (bottom-right) — matches contracts-bot */
+.main-with-alfa-dock {
+  padding-bottom: max(5rem, calc(4rem + env(safe-area-inset-bottom, 0px)));
+}
+
+/* Safe area padding for notched devices (iOS, Android) */
+.safe-area-padding {
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Connection status: above iOS home indicator / Android nav bar */
+.connection-status-position {
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  right: max(1rem, env(safe-area-inset-right));
+}
+
+/* Mobile header: extend into notch, content below safe area */
+@media (max-width: 1023px) {
+  .mobile-header-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+    min-height: calc(4rem + env(safe-area-inset-top, 0px));
+  }
+  .main-content-offset {
+    padding-top: calc(4rem + env(safe-area-inset-top, 0px));
+  }
+  .sidebar-overlay-top {
+    top: calc(4rem + env(safe-area-inset-top, 0px));
+  }
+}

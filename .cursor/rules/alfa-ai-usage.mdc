@@ -1,0 +1,48 @@
+---
+description: How Rankings Bot consumes ALFa AI (LiteLLM) and the central monitoring stack — trust zones, model aliases, telemetry, and the sanctioned xAI Grok exception.
+alwaysApply: true
+---
+
+# ALFa AI + monitoring usage — Rankings Bot
+
+Rankings Bot is the **reference implementation**. Patterns here are copied by the
+other bots, so keep them correct and drift-free. Full detail: [`AGENTS.md`](mdc:rankings-bot/AGENTS.md).
+
+## ALFa AI (server-side only)
+
+- The brain (LiteLLM proxy + orchestrator) runs on **`hub`**. This app calls LiteLLM
+  through [`api/services/litellm_client.py`](mdc:rankings-bot/api/services/litellm_client.py).
+- **Never** put LiteLLM/Ollama keys or base URLs in the frontend, and never call the
+  LLM directly from client code. AI features go through a backend route that proxies LiteLLM.
+- **Trust zones** (see [`docs/ALFA_AI_TRUST_ZONES_AND_ROLLOUT.md`](mdc:rankings-bot/docs/ALFA_AI_TRUST_ZONES_AND_ROLLOUT.md)):
+  - `public_web` → `POST /api/ai-narrative/demo-ask`, alias `public-chat`, demo bundle only.
+  - `app_authenticated` → `POST /api/ai-narrative/ask`, alias `app-chat` (or `LITELLM_MODEL_PAGE_QUESTION`), JWT required.
+  - `internal` → ALFa AI orchestrator `/api/runs`; never mix internal data into public prompts/logs.
+- **Model aliases are a contract** owned by `alfa-ai/deploy/litellm_config.yaml`. Do not
+  invent new alias names in this repo; request them in `alfa-ai` first.
+- **Telemetry:** every LLM call logs to `ollama_activity_log`. New call sites must pass
+  `feature`, `trust_zone` metadata, and populate `duration_seconds` + token counts.
+
+## Sanctioned exception — xAI Grok vision
+
+[`api/services/grok_client.py`](mdc:rankings-bot/api/services/grok_client.py) calls xAI
+**Grok** (`grok-4` vision) directly for pool coaching. This is an **intentional** product
+path, not a workaround — the LiteLLM/Ollama/Petals swarm does not serve vision coaching.
+Do **not** reroute it through LiteLLM without a vision alias on the brain + product sign-off.
+Key stays server-side env only.
+
+## Monitoring (central stack on `apps`)
+
+- Production uses the central `monitoring` repo stack — **no** per-bot Prometheus/Grafana
+  in production. Details: [`docs/MONITORING_RANKINGS_BOT.md`](mdc:rankings-bot/docs/MONITORING_RANKINGS_BOT.md).
+- API exposes `/metrics` on `8003`. `http_requests_total{status}` uses a **status class**
+  label (`2xx`…`5xx`) — match it **exactly** (`status="5xx"`), never rely on loose regex.
+- Scrape job `rankings-bot-api`; alerts in `monitoring/prometheus/rules/rankings_alerts.yml`;
+  dashboards in `monitoring/grafana/dashboards/rankings_bot_*.json`.
+
+## Drift check (mandatory after changes)
+
+After any AI/monitoring change, verify: client matches `litellm_config.yaml` aliases,
+telemetry fields populated, alert/dashboard label selectors match emitted labels, and
+docs (`AGENTS.md`, the two docs above) still match the code. See
+[`engineering-standards-and-drift-control`](mdc:.cursor/rules/engineering-standards-and-drift-control.mdc).

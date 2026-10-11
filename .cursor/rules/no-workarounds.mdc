@@ -1,0 +1,37 @@
+---
+description: Never propose workarounds, fallbacks, or temporary fixes -- always solve the root cause
+alwaysApply: true
+---
+
+# No Workarounds
+
+When solving a problem, **always propose the industry-standard fix that addresses the root cause**. Never propose workarounds, temporary fixes, fallback paths, or "it works" shortcuts.
+
+## Required
+
+- **Root-cause first:** Diagnose and fix the actual problem. Do not paper over symptoms.
+- **Single source of truth:** Data should come from one authoritative source (API, DB, config). Do not duplicate it in hardcoded fallback lists, static constants, or secondary stores that go stale.
+- **Standards over hacks:** Use the approach recommended by official docs (Docker, FastAPI, React, PostgreSQL, etc.) rather than an ad-hoc workaround that "gets it working."
+
+## Prohibited patterns
+
+- Hardcoded static data that duplicates what an API endpoint returns.
+- Secondary query paths that serve different data when the primary path fails.
+- "Degraded mode" that silently returns stale or incomplete data instead of surfacing the error.
+- Bare `except:` or `except Exception: pass` that swallows errors without logging. Always log the exception.
+- "For now" stubs that claim success without doing work. Either implement it or mark it clearly as "NOT IMPLEMENTED."
+- Using the word "fallback" in comments for code paths that are actually alternatives, defaults, or secondary parsers. Use accurate terminology.
+- `# type: ignore`, `# noqa`, or `@ts-ignore` without an inline justification comment.
+- `as any` type casts in TypeScript except where a library's types are genuinely incomplete (document why).
+
+## Acceptable patterns (per standards)
+
+- React `ErrorBoundary` / `Suspense` `fallback` props (React API term).
+- i18next `fallbackLng` (library config key).
+- Shell `|| true` in teardown/cleanup scripts (Docker Compose teardown pattern).
+- Shell `2>/dev/null` on existence checks (`docker inspect`, `docker network inspect`).
+- Narrow-type `except (ValueError, TypeError): pass` when parsing user-supplied data.
+
+## When in doubt
+
+Ask: "Would this still be correct if someone deploys six months from now without reading this conversation?" If the answer is no, it is a workaround. See `docs/CODE_QUALITY_AUDIT.md` for the full audit reference.

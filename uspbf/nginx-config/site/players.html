@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Players — USPBF</title>
+  <link rel="stylesheet" href="/css/style.css?v=8">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="site-main">
+    <header class="hero" style="padding-top:0">
+      <h1>Players</h1>
+      <p class="lead">Search the directory or open a player for a quick cross-system snapshot.</p>
+    </header>
+
+    <div id="players-error" class="msg-error" hidden></div>
+
+    <section id="player-profile" class="card" style="margin-bottom:1.5rem" hidden>
+      <h2 class="section-title" style="margin:0">Profile</h2>
+      <div id="player-profile-detail"></div>
+    </section>
+
+    <section>
+      <div class="form-row">
+        <div style="flex:1;min-width:14rem">
+          <label for="player-search">Filter directory</label>
+          <input type="search" id="player-search" placeholder="Type to filter…" autocomplete="off">
+        </div>
+        <div>
+          <label>&nbsp;</label>
+          <button type="button" class="btn btn--primary" id="btn-player-go">Load profile</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody id="players-directory-body"></tbody>
+        </table>
+      </div>
+      <div id="players-pagination" class="players-pagination" hidden>
+        <button type="button" class="btn btn--ghost" id="players-prev">Prev</button>
+        <span id="players-page-info" class="msg-muted"></span>
+        <button type="button" class="btn btn--ghost" id="players-next">Next</button>
+      </div>
+    </section>
+  </main>
+  <footer id="site-footer" class="site-footer"></footer>
+  <script src="/js/api.js"></script>
+  <script src="/js/dom-utils.js?v=1"></script>
+  <script src="/js/nav.js?v=5"></script>
+  <script src="/js/live.js?v=1"></script>
+  <script src="/js/rankings-systems.js?v=1"></script>
+  <script src="/js/players.js?v=3"></script>
+  <script src="/js/searchable-select.js?v=1"></script>
+</body>
+</html>

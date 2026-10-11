@@ -1,0 +1,62 @@
+{
+  "FREEBIE": {
+    "name": "Freebie",
+    "monthly_limit": 5,
+    "lifetime_limit": 10,
+    "max_video_duration": 600,
+    "price_monthly": 0.0,
+    "features": [
+      "Basic analysis",
+      "Limited videos",
+      "2-min videos"
+    ]
+  },
+  "ROOKIE": {
+    "name": "Rookie",
+    "monthly_limit": 15,
+    "lifetime_limit": null,
+    "max_video_duration": 1200,
+    "price_monthly": 8.0,
+    "features": [
+      "25 analyses/month",
+      "Email support"
+    ]
+  },
+  "WEEKEND_WARRIOR": {
+    "name": "Weekend Warrior",
+    "monthly_limit": 25,
+    "lifetime_limit": null,
+    "max_video_duration": 2000,
+    "price_monthly": 12.0,
+    "features": [
+      "100 analyses/month",
+      "30-min free video eval",
+      "Priority support"
+    ]
+  },
+  "POOL_SHARK": {
+    "name": "Pool Shark",
+    "monthly_limit": 30,
+    "lifetime_limit": null,
+    "max_video_duration": 3000,
+    "price_monthly": 18.0,
+    "features": [
+      "300 analyses/month",
+      "1-hr free video eval",
+      "Referral bonuses"
+    ]
+  },
+  "PRO": {
+    "name": "Pro",
+    "monthly_limit": 40,
+    "lifetime_limit": null,
+    "max_video_duration": 4000,
+    "price_monthly": 25.0,
+    "features": [
+      "Unlimited analyses",
+      "1-hour videos",
+      "VIP support",
+      "Custom drills"
+    ]
+  }
+}

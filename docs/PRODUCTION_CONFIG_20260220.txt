@@ -1,0 +1,88 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║ RANKINGS BOT - PRODUCTION CONFIGURATION (By The Book - February 20, 2026) ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌─ DEPLOYMENT MODE ──────────────────────────────────────────────────────────┐
+│ ✅ DOCKER PRODUCTION MODE (Industry Standard)                               │
+│    - All services containerized on tunnel_network                          │
+│    - No systemd API service in request path                                │
+│    - Single source of truth: Docker Compose                                │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SYSTEM STATUS ────────────────────────────────────────────────────────────┐
+│ Systemd Service: DISABLED (inactive/dead)                                  │
+│ Docker API:      ACTIVE (healthy, port 8003)                               │
+│ Nginx Container: ACTIVE (healthy, port 80)                                 │
+│ Port 8003:       Bound by docker-proxy (127.0.0.1:8003 → container:8003)   │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ NETWORK FLOW (Production Request Path) ──────────────────────────────────┐
+│                                                                             │
+│  Browser → Cloudflare → cf-alfa tunnel → probilliards-nginx (container)   │
+│                                        ↓                                    │
+│                               rankings-bot-api:8003 (container)            │
+│                                        ↓                                    │
+│                               rankings-bot-postgres:5432 (container)       │
+│                                                                             │
+│  All containers on: tunnel_network (172.19.0.0/16)                         │
+│  Container DNS:     rankings-bot-api:8003 (not host.docker.internal)       │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ DEPLOYMENT COMMANDS ──────────────────────────────────────────────────────┐
+│                                                                             │
+│  Full Deploy (rebuild everything):                                         │
+│    cd /home/ansible/rankings-bot                              │
+│    ./scripts/full_deploy.sh --force-docker                                 │
+│                                                                             │
+│  Quick Restart (API only):                                                 │
+│    sudo docker restart rankings-bot-api                                    │
+│                                                                             │
+│  Frontend Build Only:                                                      │
+│    cd /home/ansible/rankings-bot/frontend                     │
+│    npm run build                                                            │
+│    sudo docker restart probilliards-nginx                                  │
+│                                                                             │
+│  Check Status:                                                              │
+│    sudo docker ps | grep rankings-bot                                      │
+│    sudo docker logs rankings-bot-api --tail 50                             │
+│                                                                             │
+│  ⚠️ DO NOT USE: systemctl start/restart rankings-bot-api (disabled)        │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ HEALTH CHECKS ────────────────────────────────────────────────────────────┐
+│  Internal:   curl http://localhost:8003/api/health                         │
+│  Production: curl https://probilliardssoftware.com/api/health              │
+│  Container:  docker exec rankings-bot-api curl http://localhost:8003/...   │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ FIXES APPLIED (This Session) ─────────────────────────────────────────────┐
+│  1. ✅ Stopped and disabled systemd rankings-bot-api.service               │
+│  2. ✅ Verified Docker API container is sole production API                │
+│  3. ✅ Confirmed nginx proxies to rankings-bot-api:8003 (container DNS)    │
+│  4. ✅ Added is_test_tournament column (migration 021) - fixed 404s        │
+│  5. ✅ Registered live_updates router in main.py - fixed /api/live/updates │
+│  6. ✅ Cleaned up duplicate/orphaned API processes                         │
+│  7. ✅ Verified all 9 tournaments visible in API                           │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ CONFIGURATION FILES ──────────────────────────────────────────────────────┐
+│  Docker Compose:  /home/ansible/rankings-bot/docker-compose.yml│
+│  Nginx Config:    (inside probilliards-nginx container)                    │
+│  Systemd Service: /etc/systemd/system/rankings-bot-api.service (DISABLED)  │
+│  Environment:     /home/ansible/rankings-bot/.env             │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SECURITY NOTES ───────────────────────────────────────────────────────────┐
+│  • API port 8003 bound to 127.0.0.1 only (not exposed externally)          │
+│  • All external access routes through nginx reverse proxy                 │
+│  • Containers isolated on tunnel_network (not host network)               │
+│  • No host API in production request path (defense in depth)              │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ MAINTENANCE ──────────────────────────────────────────────────────────────┐
+│  • ALWAYS use --force-docker flag when deploying                           │
+│  • DO NOT re-enable systemd service                                        │
+│  • Monitor: sudo docker stats rankings-bot-api                            │
+│  • Logs: sudo docker logs -f rankings-bot-api                             │
+└────────────────────────────────────────────────────────────────────────────┘
+

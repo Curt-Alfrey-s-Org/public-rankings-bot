@@ -1,0 +1,43 @@
+[Unit]
+Description=Rankings Bot Monitoring Daemon
+Documentation=file:///home/ansible/rankings-bot/docs/MONITORING.md
+After=network.target rankings-bot-api.service
+Wants=rankings-bot-api.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/home/ansible/rankings-bot
+
+# Environment variables
+Environment="REFRESH_INTERVAL_HOURS=6"
+# Periodic /api/rankings/refresh is opt-in (rankings change around events; avoid aggressive scraping)
+Environment="MONITORING_ENABLED=false"
+Environment="API_HEALTH_ENDPOINT=http://127.0.0.1:8000/api/health"
+Environment="REFRESH_ENDPOINT=http://127.0.0.1:8000/api/rankings/refresh"
+EnvironmentFile=-/home/ansible/rankings-bot/.env
+
+# Main process
+ExecStart=/home/ansible/rankings-bot/venv/bin/python3 \
+  /home/ansible/rankings-bot/scripts/rankings_daemon.py
+
+# Restart policy
+Restart=always
+RestartSec=10s
+
+# Resource limits
+MemoryLimit=512M
+CPUQuota=50%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=rankings-daemon
+
+# Security
+PrivateTmp=yes
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

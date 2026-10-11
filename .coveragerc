@@ -1,0 +1,20 @@
+[run]
+source = .
+omit =
+    */tests/*
+    */test_*.py
+    */venv/*
+    */env/*
+    */__pycache__/*
+    */site-packages/*
+    setup.py
+
+[report]
+precision = 2
+show_missing = True
+skip_covered = False
+# Minimum coverage percentage (fail if below)
+fail_under = 20
+
+[html]
+directory = htmlcov

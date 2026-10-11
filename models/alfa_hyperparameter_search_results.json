@@ -1,0 +1,343 @@
+{
+  "best_params": {
+    "C": 0.001,
+    "max_iter": 100,
+    "penalty": "l2",
+    "solver": "liblinear"
+  },
+  "best_brier_score": 0.24983767315063496,
+  "num_combinations": 30,
+  "num_folds": 5,
+  "results": [
+    {
+      "C": 0.001,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 100,
+      "brier_mean": 0.24983767315063496,
+      "brier_std": 0.0002517152598597004,
+      "accuracy_mean": 0.5101666666666667,
+      "log_loss_mean": 0.6928225666360801,
+      "rank": 1
+    },
+    {
+      "C": 0.001,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 500,
+      "brier_mean": 0.24983767315063496,
+      "brier_std": 0.0002517152598597004,
+      "accuracy_mean": 0.5101666666666667,
+      "log_loss_mean": 0.6928225666360801,
+      "rank": 1
+    },
+    {
+      "C": 0.001,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 1000,
+      "brier_mean": 0.24983767315063496,
+      "brier_std": 0.0002517152598597004,
+      "accuracy_mean": 0.5101666666666667,
+      "log_loss_mean": 0.6928225666360801,
+      "rank": 1
+    },
+    {
+      "C": 0.01,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 100,
+      "brier_mean": 0.24985918152362557,
+      "brier_std": 0.0002435279383473776,
+      "accuracy_mean": 0.5086666666666667,
+      "log_loss_mean": 0.6928656229588757,
+      "rank": 4
+    },
+    {
+      "C": 0.01,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 1000,
+      "brier_mean": 0.24985918152362557,
+      "brier_std": 0.0002435279383473776,
+      "accuracy_mean": 0.5086666666666667,
+      "log_loss_mean": 0.6928656229588757,
+      "rank": 4
+    },
+    {
+      "C": 0.01,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 500,
+      "brier_mean": 0.24985918152362557,
+      "brier_std": 0.0002435279383473776,
+      "accuracy_mean": 0.5086666666666667,
+      "log_loss_mean": 0.6928656229588757,
+      "rank": 4
+    },
+    {
+      "C": 0.001,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 500,
+      "brier_mean": 0.249918256054133,
+      "brier_std": 0.00023261139099144736,
+      "accuracy_mean": 0.5068333333333334,
+      "log_loss_mean": 0.6929838822377805,
+      "rank": 7
+    },
+    {
+      "C": 0.001,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 100,
+      "brier_mean": 0.249918256054133,
+      "brier_std": 0.00023261139099144736,
+      "accuracy_mean": 0.5068333333333334,
+      "log_loss_mean": 0.6929838822377805,
+      "rank": 7
+    },
+    {
+      "C": 0.001,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "brier_mean": 0.249918256054133,
+      "brier_std": 0.00023261139099144736,
+      "accuracy_mean": 0.5068333333333334,
+      "log_loss_mean": 0.6929838822377805,
+      "rank": 7
+    },
+    {
+      "C": 0.1,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 500,
+      "brier_mean": 0.24993043608793503,
+      "brier_std": 0.00022926445960664478,
+      "accuracy_mean": 0.5078333333333334,
+      "log_loss_mean": 0.6930082679672676,
+      "rank": 10
+    },
+    {
+      "C": 0.1,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 100,
+      "brier_mean": 0.24993043608793503,
+      "brier_std": 0.00022926445960664478,
+      "accuracy_mean": 0.5078333333333334,
+      "log_loss_mean": 0.6930082679672676,
+      "rank": 10
+    },
+    {
+      "C": 0.1,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 1000,
+      "brier_mean": 0.24993043608793503,
+      "brier_std": 0.00022926445960664478,
+      "accuracy_mean": 0.5078333333333334,
+      "log_loss_mean": 0.6930082679672676,
+      "rank": 10
+    },
+    {
+      "C": 0.01,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "brier_mean": 0.24996755476794758,
+      "brier_std": 0.00022771139248226215,
+      "accuracy_mean": 0.50725,
+      "log_loss_mean": 0.6930825766973577,
+      "rank": 13
+    },
+    {
+      "C": 0.01,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 500,
+      "brier_mean": 0.24996755476794758,
+      "brier_std": 0.00022771139248226215,
+      "accuracy_mean": 0.50725,
+      "log_loss_mean": 0.6930825766973577,
+      "rank": 13
+    },
+    {
+      "C": 0.01,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 100,
+      "brier_mean": 0.24996755476794758,
+      "brier_std": 0.00022771139248226215,
+      "accuracy_mean": 0.50725,
+      "log_loss_mean": 0.6930825766973577,
+      "rank": 13
+    },
+    {
+      "C": 1.0,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 100,
+      "brier_mean": 0.24997025772756337,
+      "brier_std": 0.00022882312679262223,
+      "accuracy_mean": 0.5066666666666666,
+      "log_loss_mean": 0.6930879873174588,
+      "rank": 16
+    },
+    {
+      "C": 1.0,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 1000,
+      "brier_mean": 0.24997025772756337,
+      "brier_std": 0.00022882312679262223,
+      "accuracy_mean": 0.5066666666666666,
+      "log_loss_mean": 0.6930879873174588,
+      "rank": 16
+    },
+    {
+      "C": 1.0,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 500,
+      "brier_mean": 0.24997025772756337,
+      "brier_std": 0.00022882312679262223,
+      "accuracy_mean": 0.5066666666666666,
+      "log_loss_mean": 0.6930879873174588,
+      "rank": 16
+    },
+    {
+      "C": 10.0,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 500,
+      "brier_mean": 0.24997574563080233,
+      "brier_std": 0.0002295353411921581,
+      "accuracy_mean": 0.5064166666666667,
+      "log_loss_mean": 0.6930989749039254,
+      "rank": 19
+    },
+    {
+      "C": 10.0,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 1000,
+      "brier_mean": 0.24997574563080233,
+      "brier_std": 0.0002295353411921581,
+      "accuracy_mean": 0.5064166666666667,
+      "log_loss_mean": 0.6930989749039254,
+      "rank": 19
+    },
+    {
+      "C": 10.0,
+      "penalty": "l2",
+      "solver": "liblinear",
+      "max_iter": 100,
+      "brier_mean": 0.24997574563080233,
+      "brier_std": 0.0002295353411921581,
+      "accuracy_mean": 0.5064166666666667,
+      "log_loss_mean": 0.6930989749039254,
+      "rank": 19
+    },
+    {
+      "C": 0.1,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 100,
+      "brier_mean": 0.24997589758779398,
+      "brier_std": 0.00022767708313063407,
+      "accuracy_mean": 0.5066666666666667,
+      "log_loss_mean": 0.6930992794252832,
+      "rank": 22
+    },
+    {
+      "C": 0.1,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 500,
+      "brier_mean": 0.24997589758779398,
+      "brier_std": 0.00022767708313063407,
+      "accuracy_mean": 0.5066666666666667,
+      "log_loss_mean": 0.6930992794252832,
+      "rank": 22
+    },
+    {
+      "C": 0.1,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "brier_mean": 0.24997589758779398,
+      "brier_std": 0.00022767708313063407,
+      "accuracy_mean": 0.5066666666666667,
+      "log_loss_mean": 0.6930992794252832,
+      "rank": 22
+    },
+    {
+      "C": 1.0,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "brier_mean": 0.2499767897417379,
+      "brier_std": 0.00022768699476156165,
+      "accuracy_mean": 0.5065833333333334,
+      "log_loss_mean": 0.6931010655764137,
+      "rank": 25
+    },
+    {
+      "C": 1.0,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 500,
+      "brier_mean": 0.2499767897417379,
+      "brier_std": 0.00022768699476156165,
+      "accuracy_mean": 0.5065833333333334,
+      "log_loss_mean": 0.6931010655764137,
+      "rank": 25
+    },
+    {
+      "C": 1.0,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 100,
+      "brier_mean": 0.2499767897417379,
+      "brier_std": 0.00022768699476156165,
+      "accuracy_mean": 0.5065833333333334,
+      "log_loss_mean": 0.6931010655764137,
+      "rank": 25
+    },
+    {
+      "C": 10.0,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 100,
+      "brier_mean": 0.24997687957595302,
+      "brier_std": 0.00022768813768834272,
+      "accuracy_mean": 0.5065833333333334,
+      "log_loss_mean": 0.6931012454306338,
+      "rank": 28
+    },
+    {
+      "C": 10.0,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 500,
+      "brier_mean": 0.24997687957595302,
+      "brier_std": 0.00022768813768834272,
+      "accuracy_mean": 0.5065833333333334,
+      "log_loss_mean": 0.6931012454306338,
+      "rank": 28
+    },
+    {
+      "C": 10.0,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "brier_mean": 0.24997687957595302,
+      "brier_std": 0.00022768813768834272,
+      "accuracy_mean": 0.5065833333333334,
+      "log_loss_mean": 0.6931012454306338,
+      "rank": 28
+    }
+  ]
+}

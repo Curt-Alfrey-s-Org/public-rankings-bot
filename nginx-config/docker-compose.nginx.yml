@@ -1,0 +1,39 @@
+# Rankings Bot Nginx container for Cloudflare Tunnel (cf-probilliards).
+# Run from repo root (Rankings-Bot): docker-compose -f nginx-config/docker-compose.nginx.yml up -d
+# Tunnel routes: probilliardssoftware.com, www.probilliardssoftware.com, app.probilliardssoftware.com → http://probilliards-nginx:80
+# Requires: API reachable as rankings-bot-api:8003 (same network, e.g. production stack) or switch image to HOST-API config for host :8003; tunnel and this container on tunnel_network.
+# (version is obsolete in Compose V2; omit to avoid warnings)
+#
+# Doc refs (AI / maintainers — do not assume 127 vs LAN without reading):
+#   - docs/NETWORKING_DOC_HOOKS.md — file→doc index for this compose + related scripts
+#   - docs/PORT_MANAGEMENT.md — Nginx 8088 publish (8088:80 vs 127.0.0.1:8088)
+#   - docs/BAD_GATEWAY_TROUBLESHOOTING.md — API 0.0.0.0, loopback misconceptions
+#   - docs/MAINTENANCE_PAGE_AND_DEMO_WORKFLOW.md — optional host/LAN access via 8088
+
+services:
+  probilliards-nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: probilliards-nginx
+    restart: unless-stopped
+    ports:
+      # Bind all interfaces (0.0.0.0) so LAN clients can open http://<server-ip>:8088 from another
+      # machine (headless server + Chrome on Win11 private network). Loopback-only
+      # (127.0.0.1:8088) would refuse connections from other hosts unless you SSH port-forward.
+      # Tunnel → nginx still uses Docker DNS (probilliards-nginx:80); this publish is optional ingress.
+      # Harden: sudo ufw allow from 192.0.2.0/24 to any port 8088 proto tcp (adjust CIDR).
+      - '8088:80'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      # Mobile app (Expo web) at app.probilliardssoftware.com.
+      # Relative to this compose file: ../mobile is rankings-bot/mobile (not a sibling of the repo).
+      # Build first: cd ../mobile && npx expo export --platform web
+      - ../mobile/dist:/var/www/mobile-app:ro
+    networks:
+      - tunnel_network
+
+networks:
+  tunnel_network:
+    external: true

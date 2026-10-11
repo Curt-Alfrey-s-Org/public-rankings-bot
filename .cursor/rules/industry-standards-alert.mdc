@@ -1,0 +1,24 @@
+---
+description: Flag non-standard requests and suggest industry-standard alternatives
+alwaysApply: true
+---
+
+# Industry standards alert
+
+When the user asks for a change, pattern, or design that is **not** industry standard:
+
+1. **Inform them** clearly that what they asked for is not the usual practice.
+2. **Offer the industry-standard alternative**: briefly say what is standard (and why), and suggest that approach instead.
+3. Still honor their choice: if they insist on the non-standard approach after being informed, implement it and note the deviation (e.g. in a comment or doc).
+
+Apply this in **any session** when the request touches:
+- Roles, permissions, and hierarchy (e.g. superuser having all roles = standard; other patterns = call out).
+- Auth, passwords, sessions, security.
+- API design, HTTP semantics, REST/OpenAPI.
+- Database design, schema, migrations.
+- Deployment, Docker, env config.
+- UI/UX patterns (accessibility, navigation, forms).
+
+**Role hierarchy (for this project):** Super admin = has every role’s capabilities (user, director, admin, score_keeper) plus super_admin-only. Plain “user” = base role only. **score_keeper** is a JWT used for **tablets in scorekeeper mode** (director-assigned table score entry), not an end-user “player” persona. This matches the usual superuser-at-top model.
+
+When in doubt, do a quick check (docs, OWASP, framework manuals) and cite the source when offering the standard approach.

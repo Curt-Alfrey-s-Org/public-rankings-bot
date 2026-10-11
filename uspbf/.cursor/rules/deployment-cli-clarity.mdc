@@ -1,0 +1,26 @@
+---
+description: Deployment and operator CLI output must be clear; fix garbled or ambiguous logs—do not dismiss them.
+alwaysApply: true
+---
+
+# Deployment CLI clarity (professional ops)
+
+## Principle
+
+For anything operators run (deploy scripts, Docker Compose, CI, tunnels): **output either clearly shows success or clearly shows failure.** If logs are **mangled, overlapping, or impossible to audit**, that is **not** an acceptable final state—**fix it** (script, flags, or environment). Do not tell users to “ignore the mess” or treat corrupted TTY output as normal.
+
+## Required mindset
+
+- **Binary standard:** The run is either **correctly observable** (readable, attributable steps + explicit exit) or **it needs fixing**.
+- **Root cause:** Prefer fixing how the command is invoked (e.g. non-progress UI, plain progress, log file, `CI=1`, `--progress plain`, width-stable terminal, `tee` to a log) over excusing the tool’s default TTY behavior.
+
+## When editing USPBF (or similar) starters
+
+- Prefer Compose/CLI options that produce **stable, line-oriented logs** in production and documented operator paths.
+- **USPBF:** `scripts/compose-plain.sh` defines `uspbf_compose` (`docker compose --progress plain`); `scripts/start.sh` and `scripts/stop.sh` source it.
+- If documentation mentions rebuild steps, keep them **one clear path** and aligned with the project’s real entrypoint (e.g. `start.sh` → `scripts/start.sh`).
+
+## Anti-pattern
+
+❌ “The deploy worked; the terminal just looks ugly—ignore it.”  
+✅ “Output is unreadable; change the script or documented command so logs are plain and success/failure is obvious.”

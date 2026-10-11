@@ -1,0 +1,26 @@
+# Dependencies (reinstalled with npm ci)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Build output (rebuilt in container)
+dist/
+
+# Git and IDE
+.git
+.gitignore
+.cursor
+.vscode
+.idea
+
+# Tests and docs
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+coverage/
+*.md
+
+# Misc
+.DS_Store
+*.log

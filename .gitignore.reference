@@ -1,0 +1,113 @@
+# Environment variables
+.env
+.env2
+.env.key
+.token.key
+
+# Schwab OAuth token file (contains sensitive credentials)
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.npm/
+.yarn/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backtest reports
+backtest_report.json
+backtest_history_*.json
+
+# Logs and reports
+alerts.log
+logs/
+*.log
+report.txt
+report.json
+visualize.py
+trading_performance.png
+
+# Testing and Coverage
+.pytest_cache/
+.coverage
+test_report_*.json
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+htmlcov/
+reports/
+pytest-report.xml
+junit.xml
+test-results*/
+
+# Linting and Security Reports
+flake8-report.txt
+pylint-report.txt
+black-report.txt
+bandit-report.json
+bandit-output.txt
+safety-report.json
+safety-output.txt
+integration-output.txt
+e2e-output.txt
+non-interactive-output.txt
+
+# Tax reports (generated files)
+form_8949_tax_year_*.csv
+tax_summary_*.json
+cpa_report_*.txt
+demo_tax_reports/
+
+# Stock screener cache
+.stock_universe_cache.pkl
+
+# GUI settings file (user preferences)
+settings.json
+
+# Trade history files (separated by mode)
+trade_history_*.json
+
+# User uploaded data (avatar, background images)
+user_data/
+

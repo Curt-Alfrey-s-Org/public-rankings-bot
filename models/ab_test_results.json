@@ -1,0 +1,405 @@
+{
+  "test_date": "2026-02-16T19:04:46.898740",
+  "test_set_size": 2400,
+  "test_set_outcome_distribution": {
+    "1": 1225,
+    "0": 1175
+  },
+  "models": {
+    "fargo": {
+      "model_name": "Fargo Baseline",
+      "brier_score": 0.28279746288271196,
+      "accuracy": 0.5333333333333333,
+      "log_loss": 0.7822455648949486,
+      "auc_roc": 0.5433761181068172,
+      "precision": 1.0,
+      "recall": 0.0,
+      "f1": 0.5282224094355518,
+      "calibration_rmse": 0.23489144865813538
+    },
+    "logistic": {
+      "model_name": "Logistic Regression",
+      "brier_score": 0.24916584898322006,
+      "accuracy": 0.5245833333333333,
+      "log_loss": 0.6914778663025076,
+      "auc_roc": 0.5438019973947026,
+      "precision": 1.0,
+      "recall": 0.0,
+      "f1": 0.6303854875283447,
+      "calibration_rmse": 0.023364143463688807
+    },
+    "alfa": {
+      "model_name": "Alfa Full System",
+      "brier_score": 0.2501602817660305,
+      "accuracy": 0.5054166666666666,
+      "log_loss": 0.6934706820121912,
+      "auc_roc": 0.5028220581849762,
+      "precision": 1.0,
+      "recall": 0.0,
+      "f1": 0.5888465535157603,
+      "calibration_rmse": 0.04932847166421434
+    }
+  },
+  "statistical_tests": {
+    "mcnemar": {
+      "fargo_vs_logistic": {
+        "statistic": 0.6185133239831697,
+        "p_value": 0.4316002810852161
+      },
+      "fargo_vs_alfa": {
+        "statistic": 4.982241953385127,
+        "p_value": 0.02560877565110775
+      },
+      "logistic_vs_alfa": {
+        "statistic": 3.111764705882353,
+        "p_value": 0.07772870051112157
+      }
+    },
+    "wilcoxon": {
+      "fargo_vs_logistic": {
+        "statistic": 1325275.0,
+        "p_value": 0.0006819523618930792
+      },
+      "fargo_vs_alfa": {
+        "statistic": 1332021.0,
+        "p_value": 0.0013836504021628587
+      },
+      "logistic_vs_alfa": {
+        "statistic": 1355343.0,
+        "p_value": 0.012034750391709677
+      }
+    }
+  },
+  "stratified_analysis": {
+    "rating_gap": [
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "0-100 pts",
+          "n_matches": 963,
+          "brier_score": 0.2534933799484148,
+          "accuracy": 0.514018691588785,
+          "log_loss": 0.7003059665181781,
+          "auc_roc": 0.5191979190930973
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "0-100 pts",
+          "n_matches": 963,
+          "brier_score": 0.2500565864597944,
+          "accuracy": 0.4953271028037383,
+          "log_loss": 0.6932602945684685,
+          "auc_roc": 0.5206969140116123
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "0-100 pts",
+          "n_matches": 963,
+          "brier_score": 0.25096542005528233,
+          "accuracy": 0.48598130841121495,
+          "log_loss": 0.6950808169007829,
+          "auc_roc": 0.48056267308538453
+        }
+      },
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "100-200 pts",
+          "n_matches": 683,
+          "brier_score": 0.27548472482644937,
+          "accuracy": 0.5402635431918009,
+          "log_loss": 0.7508586140308985,
+          "auc_roc": 0.5328417651530859
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "100-200 pts",
+          "n_matches": 683,
+          "brier_score": 0.24864143012657727,
+          "accuracy": 0.5358711566617862,
+          "log_loss": 0.6904287557467462,
+          "auc_roc": 0.5391742691270992
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "100-200 pts",
+          "n_matches": 683,
+          "brier_score": 0.24920432398240433,
+          "accuracy": 0.5109809663250366,
+          "log_loss": 0.6915554825237995,
+          "auc_roc": 0.5152221991844633
+        }
+      },
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "200-300 pts",
+          "n_matches": 482,
+          "brier_score": 0.3148634110772592,
+          "accuracy": 0.5456431535269709,
+          "log_loss": 0.8620887792765498,
+          "auc_roc": 0.5469675575148092
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "200-300 pts",
+          "n_matches": 482,
+          "brier_score": 0.24882264230968865,
+          "accuracy": 0.5456431535269709,
+          "log_loss": 0.6907912143346829,
+          "auc_roc": 0.5423439867750379
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "200-300 pts",
+          "n_matches": 482,
+          "brier_score": 0.2500555118132681,
+          "accuracy": 0.5145228215767634,
+          "log_loss": 0.6932619259639657,
+          "auc_roc": 0.5086874913899986
+        }
+      },
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "300-1000 pts",
+          "n_matches": 272,
+          "brier_score": 0.3480865986488284,
+          "accuracy": 0.5625,
+          "log_loss": 1.0096745771929065,
+          "auc_roc": 0.5675068967382484
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "300-1000 pts",
+          "n_matches": 272,
+          "brier_score": 0.24793725893097,
+          "accuracy": 0.5625,
+          "log_loss": 0.6890184190155821,
+          "auc_roc": 0.5679396332558013
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "rating_gap",
+          "segment": "300-1000 pts",
+          "n_matches": 272,
+          "brier_score": 0.24989583364433401,
+          "accuracy": 0.5441176470588235,
+          "log_loss": 0.6929491443949203,
+          "auc_roc": 0.5301563260669659
+        }
+      }
+    ],
+    "race_length": [
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-7",
+          "n_matches": 802,
+          "brier_score": 0.2849055223404457,
+          "accuracy": 0.5249376558603491,
+          "log_loss": 0.7877906657656357,
+          "auc_roc": 0.5364518877370165
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-7",
+          "n_matches": 802,
+          "brier_score": 0.24948274440524687,
+          "accuracy": 0.5024937655860349,
+          "log_loss": 0.6921120278973462,
+          "auc_roc": 0.5364301217032232
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-7",
+          "n_matches": 802,
+          "brier_score": 0.25080173386015814,
+          "accuracy": 0.48877805486284287,
+          "log_loss": 0.6947569602580934,
+          "auc_roc": 0.4948725443249731
+        }
+      },
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-8",
+          "n_matches": 821,
+          "brier_score": 0.27931108892745804,
+          "accuracy": 0.5468940316686967,
+          "log_loss": 0.7760802069922589,
+          "auc_roc": 0.5567825032110746
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-8",
+          "n_matches": 821,
+          "brier_score": 0.24873061989261572,
+          "accuracy": 0.5420219244823387,
+          "log_loss": 0.6906072493800712,
+          "auc_roc": 0.5567943960801104
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-8",
+          "n_matches": 821,
+          "brier_score": 0.24946179104105187,
+          "accuracy": 0.5164433617539586,
+          "log_loss": 0.6920696044196087,
+          "auc_roc": 0.5120266638123782
+        }
+      },
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-9",
+          "n_matches": 777,
+          "brier_score": 0.28430537708111725,
+          "accuracy": 0.5276705276705277,
+          "log_loss": 0.7830365403644688,
+          "auc_roc": 0.5349791238650673
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-9",
+          "n_matches": 777,
+          "brier_score": 0.2492986327089867,
+          "accuracy": 0.528957528957529,
+          "log_loss": 0.6917432188047724,
+          "auc_roc": 0.534989064881702
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "race_length",
+          "segment": "Best-of-9",
+          "n_matches": 777,
+          "brier_score": 0.25023623582744237,
+          "accuracy": 0.510939510939511,
+          "log_loss": 0.6936234356161765,
+          "auc_roc": 0.4985486115713434
+        }
+      }
+    ],
+    "player_experience": [
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "player_experience",
+          "segment": "intermediate (50-200)",
+          "n_matches": 563,
+          "brier_score": 0.2973161399002061,
+          "accuracy": 0.5435168738898757,
+          "log_loss": 0.8282540302417127,
+          "auc_roc": 0.5329492212232493
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "player_experience",
+          "segment": "intermediate (50-200)",
+          "n_matches": 563,
+          "brier_score": 0.24942447589790123,
+          "accuracy": 0.5150976909413855,
+          "log_loss": 0.6919958542627002,
+          "auc_roc": 0.537172343928074
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "player_experience",
+          "segment": "intermediate (50-200)",
+          "n_matches": 563,
+          "brier_score": 0.2500161641595391,
+          "accuracy": 0.4689165186500888,
+          "log_loss": 0.6931797146859806,
+          "auc_roc": 0.5085222236292263
+        }
+      },
+      {
+        "model": "fargo",
+        "metrics": {
+          "category_name": "player_experience",
+          "segment": "experienced (>200)",
+          "n_matches": 1837,
+          "brier_score": 0.27834780846744295,
+          "accuracy": 0.5302123026673925,
+          "log_loss": 0.7681449846063104,
+          "auc_roc": 0.5376175883694413
+        }
+      },
+      {
+        "model": "logistic",
+        "metrics": {
+          "category_name": "player_experience",
+          "segment": "experienced (>200)",
+          "n_matches": 1837,
+          "brier_score": 0.2490865855357701,
+          "accuracy": 0.5274904735982581,
+          "log_loss": 0.6913191144126937,
+          "auc_roc": 0.5372790763968074
+        }
+      },
+      {
+        "model": "alfa",
+        "metrics": {
+          "category_name": "player_experience",
+          "segment": "experienced (>200)",
+          "n_matches": 1837,
+          "brier_score": 0.2502044506350858,
+          "accuracy": 0.5166031573217202,
+          "log_loss": 0.6935598570827717,
+          "auc_roc": 0.49257946123147095
+        }
+      }
+    ]
+  }
+}

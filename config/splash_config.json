@@ -1,0 +1,14 @@
+{
+  "splash_url": "/assets/video/grok-video-a1fee053-2343-4013-a0de-0445458248cf.mp4",
+  "splash_type": "video",
+  "splash_use_scraped_media": false,
+  "splash_media_revision": 2,
+  "title": "Pro Billiards Software",
+  "subtitle": "Official tournament & rankings platform of the United States Pro Billiards Federation (USPBF)",
+  "features": [
+    "Real-time WPBA & WPA rankings",
+    "Tournament brackets & scoring",
+    "AI-powered coaching insights",
+    "Director & scorekeeper tools"
+  ]
+}

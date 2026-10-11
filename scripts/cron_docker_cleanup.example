@@ -1,0 +1,4 @@
+# Add this line to crontab for daily Docker cleanup at 3:00 AM (keeps log files).
+# Edit crontab: crontab -e
+# Then paste:
+0 3 * * * /home/ansible/rankings-bot/Rankings-Bot/scripts/docker_cleanup_daily.sh >> /home/ansible/rankings-bot/Rankings-Bot/docker_cleanup.log 2>&1

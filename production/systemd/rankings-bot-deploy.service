@@ -1,0 +1,25 @@
+# Oneshot dispatcher triggered by rankings-bot-deploy.path. Runs the deploy
+# scripts (rebuild_website_now.sh / full_deploy.sh) on the Docker host as the
+# deploy user, so the API container needs no docker.sock mount.
+#
+# Single process owner stays with Compose (this unit only runs the same repo
+# scripts an operator would; it does not start a second API). Requires the
+# `ansible` user to be able to run docker (docker group) — same requirement as
+# running scripts/full_deploy.sh manually. See docs/ADMIN_DEPLOY_HOST_DISPATCH.md.
+
+[Unit]
+Description=Rankings Bot deploy request dispatcher (Admin Update website / Full deploy)
+# Don't race a booting Docker daemon.
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=oneshot
+User=ansible
+Group=ansible
+WorkingDirectory=/home/ansible/rankings-bot
+ExecStart=/usr/bin/env bash /home/ansible/rankings-bot/scripts/deploy_request_dispatcher.sh
+# full_deploy.sh --no-cache can take ~10 minutes; allow headroom.
+TimeoutStartSec=3600
+
+# No [Install] section: this unit is activated only by rankings-bot-deploy.path.

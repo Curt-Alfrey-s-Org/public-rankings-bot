@@ -1,0 +1,57 @@
+# Manual Verification Before Code Changes
+
+**MANDATORY:** Before implementing any code change, verify compliance with relevant manuals and industry standards.
+
+## Verification Process
+
+### 1. Identify Applicable Manuals
+For each code change, identify all relevant manuals and standards:
+- **Docker**: [Docker documentation](https://docs.docker.com/) for container management, networking, security
+- **Cloudflare**: [Cloudflare Tunnel documentation](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/) for tunnel configuration and security
+- **FastAPI/SQLAlchemy**: Official documentation for API and database patterns
+- **Python**: PEP standards and best practices
+- **Security**: OWASP guidelines for authentication, data handling
+
+### 2. Manual Review Checklist
+**❌ DO NOT implement** until all items are checked:
+
+- [ ] **Docker Standards**: Container naming (unique names required), network isolation, security best practices
+- [ ] **Cloudflare Standards**: Tunnel token management (unique tokens, rotation), security configurations
+- [ ] **API Standards**: RESTful design, authentication patterns, error handling
+- [ ] **Database Standards**: Schema design, migration safety, query optimization
+- [ ] **Security Standards**: Input validation, data encryption, access control
+- [ ] **Deployment Standards**: Process management, logging, monitoring
+
+### 3. Violation Assessment
+**REJECT** any change that would create:
+- Docker container name conflicts
+- Shared Cloudflare tunnel tokens between different services
+- Security vulnerabilities
+- Non-standard API patterns
+- Database design violations
+- Process management issues
+
+### 4. Documentation Update
+After verification:
+- Update inline code comments citing specific manual sections
+- Update repository documentation if patterns change
+- Add references to standards in commit messages
+
+## Examples
+
+### ✅ APPROVED: Unique container naming
+```bash
+# Follows Docker manual: unique container names required
+CONTAINER_NAME="cf-probilliards"  # Unique per repository
+```
+
+### ❌ REJECTED: Shared tunnel tokens
+```bash
+# VIOLATES Cloudflare manual: tokens should be unique per tunnel
+TUNNEL_TOKEN="$SHARED_TOKEN"  # Same token for multiple tunnels
+```
+
+## Enforcement
+- **Block implementation** if any manual requirement is violated
+- **Cite specific manual sections** in rejection reasoning
+- **Suggest compliant alternatives** from official documentation

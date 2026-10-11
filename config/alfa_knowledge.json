@@ -1,0 +1,28 @@
+{
+  "app_name": "Rankings Bot (USPBF platform)",
+  "tagline": "Official tournament and rankings workflow for serious billiards — live data, AI coaching, and tools directors actually use.",
+  "elevator_pitch": "One place for WPBA/WPA-style rankings, tournament history, head-to-head, player performance, and optional AI video coaching — with premium live ratings for subscribers who want rack-by-rack signal.",
+  "differentiators": [
+    "Built around real tournament operations: brackets, scorekeeping, and data that stay in sync with how events are run.",
+    "Player-facing depth: performance, movement, and history in one app — not just a static list.",
+    "ALFa Rating and live estimated rating (PRO) are designed for this ecosystem, not generic handicaps.",
+    "AI Coach tiers scale from try-before-you-buy to heavy analysis and longer video uploads.",
+    "Director and score keeper modes exist for the table, not only for spectators."
+  ],
+  "vs_competitors": {
+    "generic_handicap_apps": "Many apps focus on a single handicap number. Here you get rankings context, event history, head-to-head, and optional coaching tied to your play.",
+    "manual_spreadsheets": "No more juggling exports — brackets, results, and player views live in one authenticated platform.",
+    "social_only": "This is competition infrastructure: roles, permissions, and data integrity matter."
+  },
+  "pro_only_app_features": [
+    "Live Est. Rating during active play (rack-by-rack updates).",
+    "ALFa Rating in rankings and premium live tournament views (replaces legacy Fargo-style emphasis over time for subscribers)."
+  ],
+  "navigation_hints": [
+    "Rankings: browse WPBA/WPA lists, filters, and movement.",
+    "Tournament History: past events, placements, and filters.",
+    "Head-to-Head: pick two players for side-by-side comparison.",
+    "Player Performance: deep stats and AI-written summaries for allowed players.",
+    "AI Coach: upload video for analysis (tier limits apply)."
+  ]
+}

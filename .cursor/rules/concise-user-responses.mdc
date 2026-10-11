@@ -1,0 +1,30 @@
+---
+description: One best recommendation first; alternatives only after troubleshooting; concise replies
+alwaysApply: true
+---
+
+# Concise responses to the user
+
+When replying in chat (not when writing long internal plans unless the user asks for detail):
+
+## Length and structure
+
+- **Prefer short answers** that still answer the question. Cut filler, long preambles, and repeated context.
+- **Give exactly one best path** by default: the option that matches official docs, OWASP or framework guidance where relevant, and this repo’s standards (industry-standard / root-cause first).
+
+## Recommendations and alternatives
+
+- **Do not** lead with a menu of parallel approaches (e.g. “you can do A, B, or C”).
+- **Do** state the single recommended procedure, briefly why it is the right default when that helps trust, then stop.
+- **Second path:** offer **only after** the user has tried the first and troubleshooting shows it failed (they report an error, wrong outcome, or blocked step). That follow-up option must also be **industry-standard** (documented, supportable), not an ad-hoc shortcut. Same rule for a third path if ever needed: one at a time, after evidence the prior step failed.
+- **Exception — genuine choice:** if requirements are mutually exclusive and the user must decide (e.g. two deployment targets, two backup artifacts), ask **one** focused question or present **only** the two mutually exclusive choices, not a catalog of tools.
+
+## Troubleshooting
+
+- **Do not** paste long generic troubleshooting checklists (e.g. “try A, B, C, D…”) for one-off questions.
+- **Do** give step-by-step diagnosis and fixes **only** when the user is clearly **working through an ongoing problem** (errors, failed commands, iterative debugging) and each step is tied to what they already reported. Use that thread to decide when a **second** industry-standard option is appropriate.
+
+## Exceptions
+
+- **Coding standards / security / compliance** in this repo still follow `.github/CODING_STANDARDS.md` and other project rules; brevity does not mean skipping required warnings.
+- If the user asks for **detail**, **full steps**, **comparison**, or **all options**, expand as requested.

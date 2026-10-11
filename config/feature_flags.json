@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2026-02-16T00:00:00Z",
+    "phase": 0,
+    "phase_name": "Pre-launch (0% rollout)"
+  },
+  "alfa_rating_enabled": {
+    "type": "percentage",
+    "percentage": 0,
+    "description": "Enable Alfa rating system across tournaments",
+    "rollback_enabled": true,
+    "min_percentage": 0,
+    "max_percentage": 100,
+    "rollout_schedule": {
+      "0": "Pre-launch (Weeks 1-2: 10% Silent Canary)",
+      "10": "Phase 1 (Weeks 1-2: 10% Silent Canary)",
+      "25": "Phase 2 (Weeks 3-4: 25% Shadow Mode)",
+      "50": "Phase 3 (Weeks 5-6: 50% Experimentation)",
+      "75": "Phase 4 (Weeks 7-8: 75% Controlled Expansion)",
+      "100": "Phase 5 (Week 9+: 100% Full Production)"
+    }
+  },
+  "alfa_predictions_in_api": {
+    "type": "boolean",
+    "enabled": false,
+    "description": "Return Alfa predictions in match endpoints (requires 50%+ rollout)",
+    "phase_enabled_at": 3,
+    "dependencies": ["alfa_rating_enabled"]
+  },
+  "alfa_anomaly_detection_enabled": {
+    "type": "boolean",
+    "enabled": false,
+    "description": "Flag suspicious player activity with anomaly detection (requires 75%+ rollout)",
+    "phase_enabled_at": 4,
+    "dependencies": ["alfa_rating_enabled"]
+  },
+  "alfa_vs_fargo_comparison": {
+    "type": "percentage",
+    "percentage": 0,
+    "description": "Return both Alfa and Fargo scores in UI for comparison",
+    "rollout_schedule": {
+      "0": "No comparison shown",
+      "10": "Alfa computed, not shown (background only)",
+      "25": "Alfa available via API with opt-in",
+      "50": "Both shown in UI for comparison",
+      "75": "Anomaly detection enabled alongside comparison",
+      "100": "Alfa primary, Fargo as fallback"
+    }
+  },
+  "alfa_admin_dashboard_enabled": {
+    "type": "boolean",
+    "enabled": false,
+    "description": "Enable admin dashboard for rollout monitoring and anomaly review",
+    "phase_enabled_at": 4,
+    "admin_only": true
+  },
+  "alfa_rollback_enabled": {
+    "type": "boolean",
+    "enabled": true,
+    "description": "Allow automatic and manual rollback procedures",
+    "auto_rollback_triggers": {
+      "brier_threshold": 0.32,
+      "brier_check_interval_minutes": 30,
+      "error_rate_threshold": 0.02,
+      "error_rate_check_interval_minutes": 60,
+      "consecutive_failures": 5
+    }
+  },
+  "alfa_stakeholder_notifications": {
+    "type": "boolean",
+    "enabled": true,
+    "description": "Send notifications to admins on phase transitions and anomalies"
+  }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f5f5f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header { background-color: #0ea5e9; color: white; padding: 24px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 24px; }
+        .score { font-size: 32px; font-weight: bold; color: #0ea5e9; margin: 16px 0; }
+        .button { display: inline-block; padding: 12px 24px; background-color: #0ea5e9; color: white; text-decoration: none; border-radius: 6px; margin: 16px 0; }
+        .footer { font-size: 12px; color: #999; text-align: center; padding: 16px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your AI Pool Coach analysis is ready</h1>
+        </div>
+        <div class="content">
+            <p>Your video analysis has completed. Here's your overall score:</p>
+            <p class="score">{{ overall_score }}</p>
+            <p>View your full coaching feedback, daily drills, and improvement tips:</p>
+            <p><a href="{{ dashboard_url }}" class="button">View Analysis</a></p>
+            <p>Or copy this link: <code>{{ dashboard_url }}</code></p>
+            <div class="footer">
+                <p>Rankings Bot AI Coach · Analysis ID: {{ analysis_id }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

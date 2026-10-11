@@ -1,0 +1,21 @@
+%% Rankings Bot — Current flow (Feb 2026)
+%% Open docs/diagrams/architecture.html in a browser to see all three diagrams.
+%% This file: main request flow (Tunnel → Nginx → API). Paste into mermaid.live to view.
+
+flowchart LR
+  subgraph Internet
+    User[Visitor / Phone / Tablet]
+  end
+  subgraph Cloudflare
+    CF[Cloudflare Edge]
+  end
+  subgraph Docker_network["Docker tunnel_network"]
+    Tunnel[cf-probilliards tunnel]
+    Nginx[probilliards-nginx :80]
+    API[rankings-bot-api :8003]
+  end
+  User -->|HTTPS www.probilliardssoftware.com| CF
+  CF --> Tunnel
+  Tunnel -->|"http://probilliards-nginx:80"| Nginx
+  Nginx -->|"/ and /api"| API
+  API -->|"serves frontend/dist + /api"| API

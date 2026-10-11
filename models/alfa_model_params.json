@@ -1,0 +1,25 @@
+{
+  "model_type": "LogisticRegression",
+  "features": [
+    "rating_diff",
+    "race_to"
+  ],
+  "coefficients": {
+    "rating_diff": 0.0003349612861196491,
+    "race_to": -0.006203178660600607
+  },
+  "intercept": 0.07404918812588153,
+  "training_metrics": {
+    "num_matches": 7200,
+    "accuracy": 0.5126388888888889,
+    "brier_score": 0.24972652833615605,
+    "log_loss": 0.6926001276187062
+  },
+  "validation_metrics": {
+    "num_matches": 2400,
+    "accuracy": 0.51125,
+    "brier_score": 0.24996158406938715,
+    "log_loss": 0.6930705399680912
+  },
+  "description": "Logistic regression model for match outcome prediction based on Fargo principles"
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for 3D effect -->
+    <radialGradient id="feltGradient" cx="40%" cy="40%">
+      <stop offset="0%" style="stop-color:#64C864;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#228B22;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="ball1" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#FFE664;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DCB400;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="ball2" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#78B4FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3264C8;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="ball3" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#FF7878;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C83232;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="ball8" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#505050;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#141414;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="ballPurple" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#C88CFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9650C8;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="ballOrange" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#FFB478;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DC7832;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="ballGreen" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#78DC96;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#329650;stop-opacity:1" />
+    </radialGradient>
+    
+    <filter id="shadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle (table felt) -->
+  <circle cx="128" cy="128" r="118" fill="url(#feltGradient)" filter="url(#shadow)"/>
+  
+  <!-- Billiard balls arranged in triangle rack -->
+  <!-- Row 1: 1 ball (apex) -->
+  <circle cx="128" cy="81" r="14" fill="url(#ball1)" filter="url(#shadow)"/>
+  
+  <!-- Row 2: 2 balls -->
+  <circle cx="113" cy="106" r="14" fill="url(#ball2)" filter="url(#shadow)"/>
+  <circle cx="143" cy="106" r="14" fill="url(#ball3)" filter="url(#shadow)"/>
+  
+  <!-- Row 3: 3 balls (8-ball in center) -->
+  <circle cx="98" cy="131" r="14" fill="url(#ballPurple)" filter="url(#shadow)"/>
+  <circle cx="128" cy="131" r="14" fill="url(#ball8)" filter="url(#shadow)" role="img" aria-label="8-ball"/>
+  <circle cx="158" cy="131" r="14" fill="url(#ballOrange)" filter="url(#shadow)"/>
+  
+  <!-- 8-ball white circle and number -->
+  <circle cx="128" cy="131" r="8" fill="white"/>
+  <text x="128" y="137" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="black" text-anchor="middle" aria-hidden="true">8</text>
+  
+  <!-- Row 4: 4 balls -->
+  <circle cx="83" cy="156" r="14" fill="url(#ballGreen)" filter="url(#shadow)"/>
+  <circle cx="113" cy="156" r="14" fill="url(#ball3)" filter="url(#shadow)"/>
+  <circle cx="143" cy="156" r="14" fill="url(#ball1)" filter="url(#shadow)"/>
+  <circle cx="173" cy="156" r="14" fill="url(#ball2)" filter="url(#shadow)"/>
+  
+  <!-- Row 5: 5 balls (back row) -->
+  <circle cx="68" cy="181" r="14" fill="url(#ball3)" filter="url(#shadow)"/>
+  <circle cx="98" cy="181" r="14" fill="url(#ballPurple)" filter="url(#shadow)"/>
+  <circle cx="128" cy="181" r="14" fill="url(#ballOrange)" filter="url(#shadow)"/>
+  <circle cx="158" cy="181" r="14" fill="url(#ballGreen)" filter="url(#shadow)"/>
+  <circle cx="188" cy="181" r="14" fill="url(#ball3)" filter="url(#shadow)"/>
+  
+  <!-- Triangle rack (wooden frame) -->
+  <path d="M 128 67 L 60 195 L 196 195 Z" 
+        fill="none" 
+        stroke="#8B5A2B" 
+        stroke-width="4" 
+        stroke-opacity="0.7"
+        stroke-linejoin="round"/>
+</svg>

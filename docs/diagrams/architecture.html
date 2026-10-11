@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rankings Bot — Architecture &amp; Diagnose</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+  </script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 1.5rem; background: #f8f9fa; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.25rem; }
+    .diagram { background: #fff; border-radius: 8px; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .mermaid { display: flex; justify-content: center; }
+    .checklist { background: #fff; border-radius: 8px; padding: 1rem 1.5rem; margin: 1rem 0; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .checklist ul { margin: 0.5rem 0; padding-left: 1.25rem; }
+    .checklist li { margin: 0.35rem 0; }
+    code { background: #eee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    a { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <h1>Rankings Bot — What talks to what</h1>
+  <p>Use this page to see the request flow and diagnose why the site or bot isn’t updating. Open <code>docs/diagrams/architecture.html</code> in a browser (no server needed).</p>
+  <p><strong>Standard:</strong> One reverse proxy (Nginx), one backend (host API :8003). Two proxies or two runtimes cause problems — see <a href="../PRODUCTION_DEPLOYMENT.md">PRODUCTION_DEPLOYMENT.md</a>.</p>
+
+  <h2>Current flow (Feb 2026) — Tunnel → Nginx → API (Docker)</h2>
+  <p>How the live site runs now: Cloudflare Tunnel (cf-probilliards) routes to <strong>probilliards-nginx</strong>, which proxies to <strong>rankings-bot-api</strong> (Docker). The API container serves both the React app (baked-in <code>frontend/dist</code>) and <code>/api</code>. <strong>If you don’t see UI updates</strong>, rebuild the frontend, rebuild the API image, and restart the <code>rankings-bot-api</code> container (see checklist below).</p>
+  <div class="diagram">
+    <pre class="mermaid">
+flowchart LR
+  subgraph Internet
+    User[Visitor / Phone / Tablet]
+  end
+  subgraph Cloudflare
+    CF[Cloudflare Edge]
+  end
+  subgraph Docker_network["Docker (tunnel_network)"]
+    Tunnel[cf-probilliards tunnel]
+    Nginx[probilliards-nginx :80]
+    API[rankings-bot-api :8003]
+  end
+  User -->|HTTPS www.probilliardssoftware.com| CF
+  CF --> Tunnel
+  Tunnel -->|"http://probilliards-nginx:80"| Nginx
+  Nginx -->|"/ and /api"| API
+  API -->|"serves frontend/dist + /api"| API
+    </pre>
+  </div>
+
+  <h2>Data &amp; scrape flow (Feb 2026)</h2>
+  <p>Rankings: WPBA/WPA scrapers → <code>database/rankings.db</code>. Fargo: 1st place down, 20 players per batch, 1 second between batches; errors shown if rate limit or server not responding. Cron (e.g. hourly) runs <code>scripts/refresh_rankings.py</code>. Admin can run Fargo scrape manually from Health Dashboard.</p>
+  <div class="diagram">
+    <pre class="mermaid">
+flowchart TD
+  subgraph Scrapes["Scrapes"]
+    R[Rankings refresh<br/>WPBA / WPA]
+    F[Fargo scrape<br/>1st → down, 20/batch, 1s]
+  end
+  subgraph Schedule["Schedule"]
+    Cron[Cron every 1hr<br/>refresh_rankings.py]
+  end
+  subgraph Admin["Admin"]
+    Manual[Manual Fargo button<br/>Health Dashboard]
+  end
+  subgraph Storage["Storage"]
+    DB[(database/rankings.db)]
+    TM[(rankings.db tournament mgr)]
+  end
+  R --> DB
+  F --> DB
+  Cron --> R
+  Manual -->|POST /api/fargo/sync| F
+  DB -->|"Players tab, Movement, etc."| UI[React UI]
+  TM -->|"Players, Bracket, Tournaments"| UI
+    </pre>
+  </div>
+
+  <h2>UI flow (Feb 2026)</h2>
+  <p>Home at top of menu; Bracket shows error message if load fails; Players require License #; Admin has manual Fargo scrape.</p>
+  <div class="diagram">
+    <pre class="mermaid">
+flowchart LR
+  subgraph Menu["Sidebar"]
+    Home[Home]
+    Rank[Rankings]
+    Players[Players]
+    Bracket[Bracket]
+    AdminMenu[Admin / Health]
+  end
+  subgraph Features["Features"]
+    License[License # required<br/>add player]
+    BracketFix[Bracket: normalized<br/>match response + error msg]
+    FargoBtn[Manual Fargo scrape<br/>Health Dashboard]
+  end
+  Home -->|"/"| Home
+  Rank --> Rank
+  Players --> License
+  Bracket --> BracketFix
+  AdminMenu --> FargoBtn
+    </pre>
+  </div>
+
+  <h2>Why you don’t see updates on screen</h2>
+  <div class="checklist">
+    <h3>Deploy so UI changes show (Option B: frontend mounted)</h3>
+    <p>The live site is served from the <strong>rankings-bot-api</strong> container. Frontend is <strong>mounted</strong> from the host (<code>frontend/dist</code>), not baked into the image. So after changing the website:</p>
+    <ul>
+      <li><strong>1. Build frontend:</strong> <code>cd frontend && npm run build</code></li>
+      <li><strong>2. Restart the API container:</strong> <code>sudo docker restart rankings-bot-api</code></li>
+    </ul>
+    <p><strong>No image rebuild</strong> for website-only edits. If you change API/backend code, then rebuild the image and recreate the container. See <code>docs/DOCKER_BASE_AND_SMALL_EDITS.md</code>.</p>
+  </div>
+
+  <h2>Standard: Nginx → host API</h2>
+  <p>One proxy (Nginx), one backend (API on host :8003). The API serves <code>frontend/dist</code> from disk. No Docker in the path. Deploy: <code>./scripts/deploy_website.sh --reload-nginx</code>.</p>
+  <div class="diagram">
+    <pre class="mermaid">
+flowchart LR
+  subgraph Internet
+    Browser[Browser / Phone]
+  end
+  subgraph Server
+    Proxy[Nginx :80/:443]
+    API[Rankings Bot API uvicorn :8003]
+    FS[frontend/dist on disk]
+  end
+  Browser --> Proxy
+  Proxy -->|"/ and /api"| API
+  API -->|reads| FS
+    </pre>
+  </div>
+
+  <h2>Alternative: Docker (frontend + API containers)</h2>
+  <p>Not the standard. A reverse proxy routes <code>/</code> to the frontend container and <code>/api</code> to the API container. Frontend serves files baked into its image.</p>
+  <div class="diagram">
+    <pre class="mermaid">
+flowchart LR
+  subgraph Internet
+    Browser[Browser / Phone]
+  end
+  subgraph Server
+    Proxy[Reverse proxy]
+    FC[rankings-bot-frontend :80]
+    AC[rankings-bot-api :8003]
+  end
+  Browser --> Proxy
+  Proxy -->|"/"| FC
+  Proxy -->|"/api"| AC
+  FC -->|serves files inside image| FC
+    </pre>
+  </div>
+
+  <h2>Diagnose: where to check when something’s wrong</h2>
+  <div class="diagram">
+    <pre class="mermaid">
+flowchart TD
+  subgraph Check["Diagnose: where is the request going?"]
+    A[1. Browser / incognito]
+    B[2. Reverse proxy Nginx]
+    C[3a. Host API :8003 serves frontend/dist]
+    D[3b. Frontend container serves baked-in dist]
+    E[4. API container :8003 /api only]
+  end
+  A -->|HTTPS| B
+  B -->|Setup A: all to :8003| C
+  B -->|Setup B: / to frontend| D
+  B -->|Setup B: /api to api| E
+  C -->|"Website change: npm run build + restart API"| C
+  D -->|"Website change: rebuild frontend image + restart container"| D
+    </pre>
+  </div>
+
+  <div class="checklist">
+    <h3>Quick diagnose checklist</h3>
+    <ul>
+      <li><strong>Site not updating (hard refresh / incognito didn’t help)</strong><br>
+        → Standard: run <code>./scripts/deploy_website.sh --reload-nginx</code>. If you use Docker: rebuild frontend image and restart <code>rankings-bot-frontend</code>. See <a href="../REQUEST_FLOW_AND_ARCHITECTURE.md">REQUEST_FLOW_AND_ARCHITECTURE.md</a>.</li>
+      <li><strong>Which setup am I on?</strong><br>
+        → Nginx proxies to <code>127.0.0.1:8003</code> = standard (host API). Docker Compose on tunnel_network = alternative (containers). See <a href="../PRODUCTION_DEPLOYMENT.md">PRODUCTION_DEPLOYMENT.md</a>.</li>
+      <li><strong>API errors / bot not responding</strong><br>
+        → Check API logs; see <a href="../DEPLOY_UPDATES.md">DEPLOY_UPDATES.md</a> and <a href="../TROUBLESHOOT_BOT_NOT_VISIBLE.md">TROUBLESHOOT_BOT_NOT_VISIBLE.md</a>.</li>
+    </ul>
+  </div>
+
+  <p><small>Diagrams: Mermaid. Source: <code>docs/diagrams/*.mmd</code>. Full doc: <a href="../REQUEST_FLOW_AND_ARCHITECTURE.md">REQUEST_FLOW_AND_ARCHITECTURE.md</a>.</small></p>
+</body>
+</html>

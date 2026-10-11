@@ -1,0 +1,14 @@
+flowchart TD
+  subgraph Check["Diagnose: where is the request going?"]
+    A[1. Browser / incognito]
+    B[2. Reverse proxy<br/>Nginx]
+    C[3a. Host API :8003<br/>serves frontend/dist]
+    D[3b. Frontend container<br/>serves baked-in dist]
+    E[4. API container :8003<br/>/api only]
+  end
+  A -->|HTTPS| B
+  B -->|Setup A: all to :8003| C
+  B -->|Setup B: / to frontend| D
+  B -->|Setup B: /api to api| E
+  C -->|"Website change: npm run build + restart API"| C
+  D -->|"Website change: rebuild frontend image + restart container"| D

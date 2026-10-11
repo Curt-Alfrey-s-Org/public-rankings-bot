@@ -1,0 +1,5 @@
+# Add to crontab for daily Postgres backup (e.g. 2:00 AM).
+# Ensure DATABASE_URL is set (e.g. in the script or via env in crontab).
+# Edit crontab: crontab -e
+# Example (adjust path and ensure DATABASE_URL is available):
+# 0 2 * * * cd /path/to/rankings-bot && . .env && /path/to/scripts/backup_postgres.sh >> backup_postgres.log 2>&1

@@ -1,0 +1,11 @@
+[
+  {"id": "view_own_perf", "label": "View own performance", "roles": [true, true, true, true]},
+  {"id": "view_all_perf", "label": "View all players' performance", "roles": [false, false, true, true]},
+  {"id": "create_tournaments", "label": "Create / edit tournaments", "roles": [false, true, true, true]},
+  {"id": "create_players", "label": "Create players", "roles": [false, true, true, true]},
+  {"id": "data_input", "label": "Data input", "roles": [false, true, true, true]},
+  {"id": "user_management", "label": "User management", "roles": [false, false, true, true]},
+  {"id": "rebuild_website", "label": "Full deploy (website / images)", "roles": [false, false, true, true]},
+  {"id": "covert_ops", "label": "Covert Ops", "roles": [false, false, true, true]},
+  {"id": "create_super_admin", "label": "Create super_admin", "roles": [false, false, false, true]}
+]

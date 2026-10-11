@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.625rem;
+    --felt: 142 45% 28%;
+    /* WPBA look: clean, professional, billiards green (echo wpba.com) */
+    --wpba-accent: 158 42% 28%;
+    --wpba-accent-foreground: 0 0% 100%;
+    --wpba-card: 158 25% 96%;
+    /* WPA look: bold black header, world rankings (echo wpapool.com) */
+    --wpa-accent: 0 0% 4%;
+    --wpa-accent-foreground: 0 0% 100%;
+    --wpa-card: 0 0% 98%;
+    --rankings-table-header-bg: #000000;
+    --rankings-table-header-text: #ffffff;
+  }
+
+  .dark {
+    --background: 222 18% 8%;
+    --foreground: 210 20% 98%;
+    --card: 222 18% 11%;
+    --card-foreground: 210 20% 98%;
+    --popover: 222 18% 11%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 20% 18%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 217 20% 18%;
+    --muted-foreground: 215 16% 57%;
+    --accent: 217 20% 18%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 63% 51%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 20% 22%;
+    --input: 217 20% 22%;
+    --ring: 217 91% 60%;
+    --chart-1: 217 91% 60%;
+    --chart-2: 160 84% 39%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --felt: 142 45% 32%;
+    --wpba-accent: 158 45% 32%;
+    --wpba-accent-foreground: 0 0% 100%;
+    --wpba-card: 222 18% 14%;
+    --wpa-accent: 0 0% 12%;
+    --wpa-accent-foreground: 0 0% 100%;
+    --wpa-card: 222 18% 14%;
+    --rankings-table-header-bg: #000000;
+    --rankings-table-header-text: #ffffff;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    @apply dark scroll-smooth;
+    -webkit-text-size-adjust: 100%;
+    color-scheme: dark;
+    -webkit-touch-callout: none;
+  }
+  body {
+    @apply bg-slate-950 text-slate-50 antialiased overflow-x-hidden;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport for mobile (Android/iOS) */
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #root {
+    @apply bg-slate-950 text-slate-50;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  
+  /* Mobile & Tablet Optimizations */
+  @media (max-width: 768px) {
+    body {
+      font-size: 16px; /* Prevent zoom on input focus */
+    }
+    input, textarea, select {
+      font-size: 16px !important;
+    }
+  }
+  
+  /* Safe areas for notched devices */
+  @supports (padding-top: max(0px)) {
+    body {
+      padding-left: max(0px, env(safe-area-inset-left));
+      padding-right: max(0px, env(safe-area-inset-right));
+      padding-top: max(0px, env(safe-area-inset-top));
+      padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+  }
+  
+  /* Professional focus ring */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+/* Tournament-focused styling utilities */
+@layer components {
+  .tournament-header {
+    @apply bg-gradient-to-r from-slate-900 to-slate-800 border-b-2 border-felt;
+  }
+
+  .champion-badge {
+    @apply bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 rounded-full px-2 py-1 text-xs font-bold;
+  }
+
+  .ranking-highlight {
+    @apply bg-felt/10 border-l-4 border-felt;
+  }
+
+  .player-card-hover {
+    @apply transition-all hover:shadow-lg hover:scale-apps;
+  }
+
+  .medal-gold {
+    @apply text-yellow-400;
+  }
+
+  .medal-silver {
+    @apply text-slate-400;
+  }
+
+  .medal-bronze {
+    @apply text-orange-600;
+  }
+
+  .felt-accent {
+    @apply text-felt;
+  }
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 47" aria-hidden="true">
+  <path fill="#b22234" d="M0 0h90v47H0z"/>
+  <path stroke="#fff" stroke-width="3.6" d="M0 3.6h90M0 10.8h90M0 18h90M0 25.2h90M0 32.4h90M0 39.6h90"/>
+  <path fill="#3c3b6e" d="M0 0h36.9v25.2H0z"/>
+  <g fill="#fff">
+    <circle cx="4.6" cy="3.6" r="1.1"/><circle cx="9.2" cy="3.6" r="1.1"/><circle cx="13.8" cy="3.6" r="1.1"/><circle cx="18.4" cy="3.6" r="1.1"/><circle cx="23" cy="3.6" r="1.1"/>
+    <circle cx="6.9" cy="7.2" r="1.1"/><circle cx="11.5" cy="7.2" r="1.1"/><circle cx="16.1" cy="7.2" r="1.1"/><circle cx="20.7" cy="7.2" r="1.1"/><circle cx="25.3" cy="7.2" r="1.1"/>
+    <circle cx="4.6" cy="10.8" r="1.1"/><circle cx="9.2" cy="10.8" r="1.1"/><circle cx="13.8" cy="10.8" r="1.1"/><circle cx="18.4" cy="10.8" r="1.1"/><circle cx="23" cy="10.8" r="1.1"/>
+    <circle cx="6.9" cy="14.4" r="1.1"/><circle cx="11.5" cy="14.4" r="1.1"/><circle cx="16.1" cy="14.4" r="1.1"/><circle cx="20.7" cy="14.4" r="1.1"/><circle cx="25.3" cy="14.4" r="1.1"/>
+    <circle cx="4.6" cy="18" r="1.1"/><circle cx="9.2" cy="18" r="1.1"/><circle cx="13.8" cy="18" r="1.1"/><circle cx="18.4" cy="18" r="1.1"/><circle cx="23" cy="18" r="1.1"/>
+  </g>
+</svg>

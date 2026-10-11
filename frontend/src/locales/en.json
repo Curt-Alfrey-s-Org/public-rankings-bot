@@ -1,0 +1,36 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "nav": {
+    "rankings": "Rankings",
+    "tournaments": "Tournaments",
+    "bracket": "Bracket",
+    "settings": "Settings",
+    "players": "Players"
+  },
+  "tournament": {
+    "single": "Single Elimination",
+    "double": "Double Elimination",
+    "roundRobin": "Round Robin"
+  },
+  "league": {
+    "title": "Leagues",
+    "create": "Create League",
+    "standings": "Standings",
+    "teams": "Teams"
+  },
+  "tour": {
+    "title": "Tours",
+    "create": "Create Tour",
+    "stops": "Stops",
+    "standings": "Standings"
+  }
+}

@@ -1,0 +1,17 @@
+# DEPRECATED — Do not use this file directly.
+# All services (postgres, redis, API, celery, monitoring) are defined in:
+#   production/docker-compose.prod.yml
+#
+# Usage:
+#   cd production && docker compose -f docker-compose.prod.yml up -d
+#
+# This file exists only so legacy scripts that reference docker-compose.yml
+# at the repo root still find a valid compose file. It re-exports the
+# production compose via an include (Compose V2.20+).
+#
+# If your Docker Compose does not support "include:", use the production
+# file directly:
+#   docker compose -f production/docker-compose.prod.yml up -d
+
+include:
+  - production/docker-compose.prod.yml

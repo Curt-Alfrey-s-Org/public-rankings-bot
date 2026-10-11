@@ -1,0 +1,139 @@
+/* Verify Email page — matches app dark theme, mobile responsive */
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #020617;
+  padding: 1.5rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgb(51, 65, 85);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.message {
+  color: rgb(203, 213, 225);
+  font-size: 0.9375rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.loading {
+  color: rgb(148, 163, 184);
+  font-size: 0.875rem;
+}
+
+.errorBox {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: rgb(248, 113, 113);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.successBox {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: rgb(134, 239, 172);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.link {
+  color: rgb(56, 189, 248);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.linkBlock {
+  margin-top: 1rem;
+}
+
+.redirectNote {
+  color: rgb(148, 163, 184);
+  font-size: 0.8125rem;
+  margin-top: 1rem;
+}
+
+/* Resend verification form */
+.resendSection {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgb(51, 65, 85);
+  text-align: left;
+}
+
+.resendLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(203, 213, 225);
+  margin-bottom: 0.5rem;
+}
+
+.resendInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: rgb(30, 41, 59);
+  border: 1px solid rgb(71, 85, 105);
+  color: #fff;
+  font-size: 0.9375rem;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
+}
+
+.resendInput:focus {
+  outline: none;
+  border-color: rgb(14, 165, 233);
+}
+
+.resendBtn {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #fff;
+  background: rgb(2, 132, 199);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.resendBtn:hover:not(:disabled) {
+  background: rgb(14, 165, 233);
+}
+
+.resendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

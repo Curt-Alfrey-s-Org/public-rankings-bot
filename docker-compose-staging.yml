@@ -1,0 +1,205 @@
+# Staging Deployment for Alfa Rating System
+# alfa-api-staging uses user: ${HOST_UID}:${HOST_GID} (match deploy user, e.g. ansible — not root).
+# For manual compose, pass --env-file .env.compose-host-user
+# (generate: . ./scripts/export_compose_uid_gid.sh && write_compose_host_user_env "$PWD") or set HOST_UID/HOST_GID in .env.
+# ⚠️ CRITICAL - DO NOT MODIFY:
+#    - Network name: tunnel_network (hardcoded in cf-probilliards tunnel)
+#    - Port 8006: Staging API reserved port (127.0.0.1:8006:5000)
+#    - Database: rankings_staging (independent copy of production schema)
+#    - Model versions: pinned for reproducibility
+#    - See: PORT_ASSIGNMENTS.md and NETWORKING_STANDARDS.md
+
+version: '3.9'
+
+services:
+  postgres-staging:
+    image: postgres:16-alpine
+    pull_policy: if_not_present
+    container_name: alfa-staging-postgres
+    environment:
+      # No default password: `docker compose up` fails until STAGING_POSTGRES_PASSWORD is set
+      # (review 2026-09-25). The same value is interpolated into DATABASE_URL below.
+      POSTGRES_USER: rankings
+      POSTGRES_PASSWORD: ${STAGING_POSTGRES_PASSWORD:?Set STAGING_POSTGRES_PASSWORD (URL-safe characters; see docs/ENV_VARS.md)}
+      POSTGRES_DB: rankings_staging
+    ports:
+      - '127.0.0.1:5433:5432'
+    volumes:
+      - postgres_staging_data:/var/lib/postgresql/data
+      - ./database/staging/schema_staging_init.sql:/docker-entrypoint-initdb.d/01_init.sql
+      - ./database/schema_alfa_extends.sql:/docker-entrypoint-initdb.d/02_alfa.sql
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U rankings -d rankings_staging']
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - alfa-staging-network
+
+  redis-staging:
+    image: redis:7-alpine
+    pull_policy: if_not_present
+    container_name: alfa-staging-redis
+    ports:
+      - '127.0.0.1:6380:6379'
+    volumes:
+      - redis_staging_data:/data
+    restart: unless-stopped
+    networks:
+      - alfa-staging-network
+
+  alfa-api-staging:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: alfa-api:staging
+    pull_policy: never
+    container_name: alfa-api-staging
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    ports:
+      - '127.0.0.1:8006:5000'
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+      - ./models:/app/models
+      - ./staging:/app/staging
+      - ./frontend/dist:/app/frontend/dist:ro
+    environment:
+      # Environment & Logging
+      - ENVIRONMENT=staging
+      - LOG_LEVEL=DEBUG
+      - LOG_FILE=/app/logs/alfa_staging.log
+      
+      # Database (staging schema)
+      - DATABASE_URL=postgresql://rankings:${STAGING_POSTGRES_PASSWORD}@postgres-staging:5432/rankings_staging
+      
+      # API Configuration (Uvicorn listens on API_PORT; map host 8006 → that port)
+      - API_PORT=5000
+      - BOT_API_KEY=${BOT_API_KEY:?Set BOT_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      
+      # Redis/Cache
+      - REDIS_URL=redis://redis-staging:6379/0
+      - CELERY_BROKER_URL=redis://redis-staging:6379/0
+      
+      # Model Versions (pinned for staging)
+      - ALFA_MODEL_VERSION=v1.0
+      - ANOMALY_DETECTION_VERSION=v2.0
+      - LOGISTIC_REGRESSION_VERSION=v1.0
+      
+      # Bootstrap users (staging credentials). No defaults: a missing value fails
+      # `docker compose up` (required-variable interpolation). Staging runs in production
+      # mode (DEBUG unset), so the API also refuses to start without SUPER_ADMIN_PASSWORD
+      # when the super admin does not exist yet. Passwords must meet the policy
+      # (8+ chars, upper, lower, number, special). See docs/ENV_VARS.md.
+      - SUPER_ADMIN_USERNAME=${STAGING_SUPER_ADMIN_USERNAME:-tornybotca1}
+      - SUPER_ADMIN_PASSWORD=${STAGING_SUPER_ADMIN_PASSWORD:?Set STAGING_SUPER_ADMIN_PASSWORD}
+      - ADMIN_USERNAME=StagingAdmin
+      - ADMIN_PASSWORD=${STAGING_ADMIN_PASSWORD:?Set STAGING_ADMIN_PASSWORD}
+      - DIRECTOR_USERNAME=staging_director
+      - DIRECTOR_PASSWORD=${STAGING_DIRECTOR_PASSWORD:?Set STAGING_DIRECTOR_PASSWORD}
+      - USER_USERNAME=staging_user
+      - USER_PASSWORD=${STAGING_USER_PASSWORD:?Set STAGING_USER_PASSWORD}
+      
+      # External integrations
+      - XAI_API_KEY=${XAI_API_KEY}
+      - FRAME_STORAGE_ROOT=/app/staging
+      
+      # Feature flags
+      - USE_FAIRMATCH_SCRAPE=false
+      - ENABLE_AI_COACH=false
+      
+      # Metrics/Monitoring
+      - METRICS_PORT=9090
+      - ENABLE_PROMETHEUS_METRICS=true
+      
+      # Paths
+      - IPTABLES_PATH=/usr/sbin/iptables
+      - CHROME_PATH=/usr/bin/chromium
+    depends_on:
+      postgres-staging:
+        condition: service_healthy
+      redis-staging:
+        condition: service_started
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    networks:
+      - alfa-staging-network
+      - tunnel_network
+
+  prometheus-staging:
+    image: prom/prometheus:latest
+    pull_policy: if_not_present
+    container_name: alfa-prometheus-staging
+    ports:
+      - '127.0.0.1:9090:9090'
+    volumes:
+      - ./staging/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ../monitoring/prometheus/rules/alfa_alerts.yml:/etc/prometheus/alfa_alerts.yml:ro
+      - prometheus_staging_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - alfa-staging-network
+
+  grafana-staging:
+    image: grafana/grafana:latest
+    pull_policy: if_not_present
+    container_name: alfa-grafana-staging
+    ports:
+      - '127.0.0.1:3000:3000'
+    volumes:
+      - grafana_staging_data:/var/lib/grafana
+      - ../monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ../monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:?Set GRAFANA_ADMIN_PASSWORD (no default)}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    depends_on:
+      - prometheus-staging
+    networks:
+      - alfa-staging-network
+
+volumes:
+  postgres_staging_data:
+  redis_staging_data:
+  prometheus_staging_data:
+  grafana_staging_data:
+
+networks:
+  alfa-staging-network:
+    driver: bridge
+    name: alfa-staging-network
+  tunnel_network:
+    external: true

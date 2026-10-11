@@ -1,0 +1,13 @@
+flowchart LR
+  subgraph Internet
+    Browser[Browser / Phone]
+  end
+  subgraph Server
+    Proxy[Reverse proxy]
+    FC[rankings-bot-frontend<br/>container :80]
+    AC[rankings-bot-api<br/>container :8003]
+  end
+  Browser --> Proxy
+  Proxy -->|"/"| FC
+  Proxy -->|"/api"| AC
+  FC -->|serves files inside image| FC

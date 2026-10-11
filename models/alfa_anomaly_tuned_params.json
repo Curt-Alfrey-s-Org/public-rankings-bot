@@ -1,0 +1,12 @@
+{
+  "thresholds": {
+    "name": "Current System",
+    "sudden_jump": 40,
+    "weak_winrate": 0.8,
+    "strong_lossrate": 0.8,
+    "high_variance": 0.35
+  },
+  "training_flag_rate": 0.20416666666666666,
+  "validation_flag_rate": 0.05036726128016789,
+  "notes": "Tuned for 10-15% overall flag rate with >70% precision"
+}

@@ -1,0 +1,16 @@
+---
+description: rankings-bot — no automatic external ranking scrapes (manual / admin triggers)
+alwaysApply: true
+---
+
+# NO AUTOMATIC SCRAPING RULE (rankings-bot)
+
+Same policy as the workspace rule scoped to **`rankings-bot/**/*`**.
+
+## Critical
+
+Unattended scraping of WPBA/WPA/Fargo-style ranking sources drove account bans. Inside **this tree**, assistants default to **manual or admin-triggered** refresh unless maintainers explicitly change policy in docs.
+
+See also: repo-root `.cursor/rules/no-automatic-scraping.mdc` (globs `rankings-bot/**`).
+
+## Last Updated: 2026-05-13

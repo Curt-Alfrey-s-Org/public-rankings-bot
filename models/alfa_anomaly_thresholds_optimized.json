@@ -1,0 +1,57 @@
+{
+  "sudden_jump": {
+    "threshold": 40,
+    "description": "40 pts in 5 games",
+    "metrics": {
+      "precision": 0.5375,
+      "recall": 0.7748,
+      "f1_score": 0.6347,
+      "coverage_pct": 16.68
+    },
+    "selection_reason": "best F1 (0.635)"
+  },
+  "winning_weak_only": {
+    "threshold": 0.65,
+    "description": "65% wins vs weak",
+    "metrics": {
+      "precision": 0.312,
+      "recall": 0.3514,
+      "f1_score": 0.3305,
+      "coverage_pct": 13.03
+    },
+    "selection_reason": "best F1 (0.331)"
+  },
+  "losing_strong_only": {
+    "threshold": 0.65,
+    "description": "65% losses vs strong",
+    "metrics": {
+      "precision": 0.1,
+      "recall": 0.0991,
+      "f1_score": 0.0995,
+      "coverage_pct": 11.47
+    },
+    "selection_reason": "best F1 (0.100)"
+  },
+  "high_variance": {
+    "threshold": 0.25,
+    "description": "std dev 0.25",
+    "metrics": {
+      "precision": 0.6456,
+      "recall": 0.4595,
+      "f1_score": 0.5368,
+      "coverage_pct": 8.24
+    },
+    "selection_reason": "best F1 (0.537)"
+  },
+  "break_dominance_outlier": {
+    "threshold": 0.6,
+    "description": "60% break wins",
+    "metrics": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "coverage_pct": 0.0
+    },
+    "selection_reason": "best F1 (0.000)"
+  }
+}

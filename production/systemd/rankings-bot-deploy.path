@@ -1,0 +1,22 @@
+# Watches the deploy request queue written by the rankings-bot-api container
+# (Admin "Update website" / "Full deploy" buttons) and activates the dispatcher.
+#
+# Why: keeps /var/run/docker.sock out of the internet-facing API container
+# (root-equivalent access per https://docs.docker.com/engine/security/#docker-daemon-attack-surface).
+# systemd.path(5): PathExistsGlob re-checks when the watched directory changes and
+# after the triggered service deactivates, so queued requests are never lost.
+#
+# Install (as root on the Docker host):
+#   cp production/systemd/rankings-bot-deploy.{path,service} /etc/systemd/system/
+#   systemctl daemon-reload && systemctl enable --now rankings-bot-deploy.path
+# See docs/ADMIN_DEPLOY_HOST_DISPATCH.md.
+
+[Unit]
+Description=Rankings Bot deploy request queue watcher
+
+[Path]
+PathExistsGlob=/home/ansible/rankings-bot/logs/deploy-requests/*.request
+Unit=rankings-bot-deploy.service
+
+[Install]
+WantedBy=multi-user.target

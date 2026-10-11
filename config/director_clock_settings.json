@@ -1,0 +1,10 @@
+{
+  "shot_clock_enabled": false,
+  "shot_clock_seconds": 40,
+  "game_clock_enabled": false,
+  "game_clock_minutes": 0,
+  "match_clock_enabled": false,
+  "match_clock_minutes": 0,
+  "table_time_alert_enabled": false,
+  "table_time_alert_minutes": 0
+}

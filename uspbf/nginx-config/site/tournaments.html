@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournaments — USPBF</title>
+  <link rel="stylesheet" href="/css/style.css?v=8">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="site-main">
+    <header class="hero" style="padding-top:0">
+      <h1>Tournaments</h1>
+      <p class="lead">Upcoming and past events from the federation database. Register and manage events after sign-in at <a href="https://www.probilliardssoftware.com/" target="_blank" rel="noopener noreferrer">probilliardssoftware.com</a>.</p>
+    </header>
+
+    <section style="margin-bottom:2.5rem">
+      <h2 class="section-title">Upcoming</h2>
+      <div id="tournaments-upcoming"></div>
+    </section>
+
+    <section style="margin-bottom:2.5rem">
+      <h2 class="section-title">Recent results</h2>
+      <p class="msg-muted" style="margin:-0.35rem 0 1rem">Recent podium finishes from the federation feed.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Event</th>
+              <th>Tour</th>
+              <th>1st</th>
+              <th>2nd</th>
+            </tr>
+          </thead>
+          <tbody id="tournaments-leaderboard-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Past events</h2>
+      <div class="form-row">
+        <div>
+          <label for="tournament-year">Year</label>
+          <select id="tournament-year"><option value="">All years</option></select>
+        </div>
+        <div style="flex:1;min-width:12rem">
+          <label for="tournament-search">Search name or location</label>
+          <input type="search" id="tournament-search" placeholder="Filter…" autocomplete="off">
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Association</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody id="tournaments-history-body"></tbody>
+        </table>
+      </div>
+      <div id="tournaments-history-pagination" class="players-pagination" hidden>
+        <button type="button" class="btn btn--ghost" id="tournaments-history-prev">Prev</button>
+        <span id="tournaments-history-page-info" class="msg-muted"></span>
+        <button type="button" class="btn btn--ghost" id="tournaments-history-next">Next</button>
+      </div>
+    </section>
+  </main>
+  <footer id="site-footer" class="site-footer"></footer>
+  <script src="/js/api.js?v=2"></script>
+  <script src="/js/dom-utils.js?v=2"></script>
+  <script src="/js/nav.js?v=5"></script>
+  <script src="/js/live.js?v=1"></script>
+  <script src="/js/tournaments.js?v=4"></script>
+  <script src="/js/searchable-select.js?v=1"></script>
+</body>
+</html>

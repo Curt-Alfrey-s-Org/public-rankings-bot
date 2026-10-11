@@ -1,0 +1,11 @@
+[
+  {
+    "title": "Weekend Warrior 50% Off",
+    "tier": "WEEKEND_WARRIOR",
+    "discount_percent": 50,
+    "deal_price": 6.0,
+    "tagline": "More monthly analyses and longer video evals — half off list price for a limited time.",
+    "active": true,
+    "expires": "2026-06-30"
+  }
+]
