@@ -1,41 +1,35 @@
 # Rankings bot (public snapshot)
 
-Scrubbed snapshot of a billiards rankings application, plus the USPBF site tree under `uspbf/`. This repository is not a continuation of private git history.
+Open-source snapshot of a billiards rankings application, plus the USPBF site tree under `uspbf/`. This repository is not a continuation of private git history.
 
-The rankings app tracks rankings for the Women's Professional Billiards Association (WPBA) and the Women's World Pool-Billiard Association (WPA). PostgreSQL holds the data. Redis is the cache. A background worker runs beside the API.
+## Rankings
 
-## Rankings services
+Tracks WPBA and WPA rankings. PostgreSQL stores data; Redis is the cache; a Celery worker runs beside the API. Compose file: `production/docker-compose.prod.yml` (the root `docker-compose.yml` includes it).
 
-Production services are in `production/docker-compose.prod.yml`. The root `docker-compose.yml` only includes that file.
-
-| Service | Image | Host publish |
-|---------|-------|----------------|
-| postgres | `postgres:15-alpine` | none (compose network only) |
-| postgres-testcenter | `postgres:15-alpine` | none (compose network only) |
-| redis | `redis:7-alpine` | none (compose network only) |
-| rankings-bot-api | built from the root `Dockerfile` | `127.0.0.1:8003` (`API_BIND_ADDR` overrides the bind address; the container port stays `8003`) |
-| rankings-bot-celery-worker | same image as the API | none (compose network only) |
-
-Copy an env example to `.env` and set the database password and other required secrets there. Do not commit `.env`.
+1. Copy `.env.example` to `.env`.
+2. Set your own secrets, especially `POSTGRES_PASSWORD` and the bootstrap `*_PASSWORD` values required by compose.
+3. Start the stack:
 
 ```bash
 docker compose -f production/docker-compose.prod.yml up -d
 ```
 
+The API is published on `127.0.0.1:8003` by default (`API_BIND_ADDR` overrides the bind address; container port stays `8003`).
+
+License: MIT (`LICENSE` in the repo root).
+
 ## USPBF
 
-`uspbf/` is a scrubbed snapshot of the United States Pro Billiards Federation site: static pages under `uspbf/nginx-config/site/`, an nginx image, WordPress, and MySQL. Compose file: `uspbf/docker-compose.yml`.
+Scrubbed snapshot of the United States Pro Billiards Federation site: static pages, nginx, WordPress, and MySQL. Compose file: `uspbf/docker-compose.yml`.
 
-| Service | Image | Host publish |
-|---------|-------|----------------|
-| uspbf-nginx | built from `uspbf/nginx-config/Dockerfile` | `8089:8089` |
-| wordpress | `wordpress:7.0.4-php8.3-apache` | none (compose network only) |
-| db | `mysql:8.4` | none (compose network only) |
+1. Copy `uspbf/env.example` to `uspbf/.env`.
+2. Set your own MySQL passwords and `BOT_API_KEY` (must match the rankings API key if you proxy `/api`).
+3. From the `uspbf/` directory:
 
-The nginx health check calls `http://localhost:8080/health` inside the container.
+```bash
+docker compose up -d
+```
 
-Copy `uspbf/env.example` to `uspbf/.env` and set database passwords there. Do not commit `.env`.
+Preview the site on host port **8089** (`8089:8089`).
 
-## License
-
-The rankings tree includes the MIT `LICENSE` that shipped with that project. USPBF did not include a LICENSE file. None was added.
+USPBF did not ship with a LICENSE file; none was added.
