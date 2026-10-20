@@ -59,7 +59,7 @@ services:
         BUILDKIT_INLINE_CACHE: 1
     user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:change-me@postgres:5432/${POSTGRES_DB:-rankingsbot}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-rankingsbot_user}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-rankingsbot}
       CELERY_BROKER_URL: redis://redis:6379/0
       REDIS_URL: redis://redis:6379/0
     depends_on:
@@ -99,7 +99,7 @@ services:
     user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
     command: celery -A api.services.celery_worker worker --loglevel=info --concurrency=4
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:change-me@postgres:5432/${POSTGRES_DB:-rankingsbot}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-rankingsbot_user}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-rankingsbot}
       CELERY_BROKER_URL: redis://redis:6379/0
       REDIS_URL: redis://redis:6379/0
     depends_on:

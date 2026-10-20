@@ -152,7 +152,7 @@ services:
       args:
         BUILDKIT_INLINE_CACHE: 1
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:change-me@postgres:5432/${POSTGRES_DB:-rankingsbot}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-rankingsbot_user}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-rankingsbot}
       CELERY_BROKER_URL: redis://redis:6379/0
       REDIS_URL: redis://redis:6379/0
     depends_on:
@@ -190,7 +190,7 @@ services:
       context: .
       dockerfile: Dockerfile.optimized
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:change-me@postgres:5432/${POSTGRES_DB:-rankingsbot}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-rankingsbot_user}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-rankingsbot}
       CELERY_BROKER_URL: redis://redis:6379/0
       REDIS_URL: redis://redis:6379/0
     depends_on:

@@ -124,9 +124,9 @@ services:
       # Alias: frontend needs VITE_API_KEY but .env has BOT_API_KEY
       - VITE_API_KEY=${BOT_API_KEY}
       # Override: production uses Docker DNS hostname (not the dev hostname in .env)
-      - DATABASE_URL=postgresql://${POSTGRES_USER:change-me@rankings-bot-postgres:5432/${POSTGRES_DB:-rankingsbot}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-rankingsbot_user}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@rankings-bot-postgres:5432/${POSTGRES_DB:-rankingsbot}
       # Test Center: separate Postgres instance (own process/memory/connections) — no resource sharing with production
-      - TEST_CENTER_DATABASE_URL=postgresql://${POSTGRES_USER:change-me@rankings-bot-postgres-testcenter:5432/rankings_testcenter
+      - TEST_CENTER_DATABASE_URL=postgresql://${POSTGRES_USER:-rankingsbot_user}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@rankings-bot-postgres-testcenter:5432/rankings_testcenter
       - REBUILD_ALL_IMAGES_SCRIPT=/app/scripts/full_deploy.sh
       # Bootstrap credentials: required-variable form (Compose interpolation
       # https://docs.docker.com/reference/compose-file/interpolation/) — a missing .env
@@ -192,7 +192,7 @@ services:
       # Container-specific: Docker DNS service names (override dev values from .env)
       - CELERY_BROKER_URL=redis://redis:6379/0
       - REDIS_URL=redis://redis:6379/0
-      - DATABASE_URL=postgresql://${POSTGRES_USER:change-me@rankings-bot-postgres:5432/${POSTGRES_DB:-rankingsbot}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-rankingsbot_user}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@rankings-bot-postgres:5432/${POSTGRES_DB:-rankingsbot}
       - FRAME_STORAGE_ROOT=/app/pools_coaching_frames
       - IPTABLES_PATH=/usr/sbin/iptables
     depends_on:
